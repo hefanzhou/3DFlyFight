@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 182ddb0bf15a4d945806da5842a7aa90
+labels:
+- progress
+- bar
+- energy
+- gui
+- health
+- life
+- mana
+- score
+- coins
+NativeFormatImporter:
+  userData: 

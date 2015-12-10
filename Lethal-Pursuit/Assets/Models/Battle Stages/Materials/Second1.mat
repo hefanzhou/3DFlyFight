@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Second1
+  m_Shader: {fileID: 7, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: []
+  m_CustomRenderQueue: -1
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 2800000, guid: a16491a19bc0b5849a64a9724f2820a5, type: 3}
+          m_Scale: {x: 3, y: 3}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DecalTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 435bcd1ae5cf09344abf9260b97f78c8, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _Shininess
+        second: .0488910079
+      data:
+        first:
+          name: _NumColors
+        second: 30
+      data:
+        first:
+          name: _Brightness
+        second: 5.8214283
+      data:
+        first:
+          name: _OutlineWidth
+        second: .4375
+      data:
+        first:
+          name: _OutlineFalloff
+        second: .580357134
+    m_Colors:
+      data:
+        first:
+          name: _Color
+        second: {r: .423334807, g: .582836151, b: .661764741, a: 1}
+      data:
+        first:
+          name: _SpecColor
+        second: {r: .952941179, g: .80392158, b: .80392158, a: 1}
+      data:
+        first:
+          name: _MainColor
+        second: {r: .191176474, g: .17852509, b: .17852509, a: 1}
+      data:
+        first:
+          name: _OutlineColor
+        second: {r: .211126745, g: .316433847, b: .404411793, a: 1}
