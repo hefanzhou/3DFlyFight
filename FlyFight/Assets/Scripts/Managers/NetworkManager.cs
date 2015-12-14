@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class NetworkManager : MonoBehaviour {
 	
-	private static string gameType = "2P Multiplayer: ";
-	public  static string gameName = "Game";
+	private static string gameType = "FlyFight";
+	public  static string gameName = "ComeOn";
 	private static string gameComment = "Network Test Run";
 
 	
@@ -22,7 +22,7 @@ public class NetworkManager : MonoBehaviour {
 	private static int playerID = -1;
 	public  static int numPlayers = 1;
 	
-	private static NetworkManager instance {
+	public static NetworkManager instance {
 		get {
 			// If first time accessing instance, then find it...
 			if (singletonInstance == null) {
@@ -44,7 +44,7 @@ public class NetworkManager : MonoBehaviour {
 	public void Awake() {
 		DontDestroyOnLoad(this);
 
-		MasterServer.ipAddress = "192.168.0.1";
+		MasterServer.ipAddress = "127.0.0.1";
 		MasterServer.port = 23466;
 
 
@@ -67,12 +67,32 @@ public class NetworkManager : MonoBehaviour {
 		}
 	}
 
+	IEnumerator RefreshHostListInner()
+	{
+		while(true)
+		{
+			yield return new WaitForSeconds(2);
+			if (MasterServer.PollHostList().Length > 0)
+			{
+				refreshing = false;
+				Debug.Log("Number of available games: " + MasterServer.PollHostList().Length);
+				hostData = MasterServer.PollHostList();
+				break;
+			}
+		}
+		
+	}
+
+
 	public static void StartServer ()
 	{
 		Debug.Log ("Starting server.........");
-		Network.InitializeServer(maxPlayersAllowed, 25000, !Network.HavePublicAddress());
-		Debug.Log ("Registering Host.........");
+		int validPort = NetTool.GetAvailablePort();
+		// !Network.HavePublicAddress()); 不使用publicAdress 否则默认会去链接unity自己的穿透公共服务器
+		Network.InitializeServer(maxPlayersAllowed, validPort, false);
+		Debug.Log("Registering Host........." + validPort);
 		Random.seed = (int)Time.time;
+		//改为房间名
 		gameName = string.Format("Game {0}", Random.Range(100, 999));
 		Debug.Log ("gameName: " + gameName);
 		MasterServer.RegisterHost (gameType, gameName, gameComment);
@@ -97,11 +117,11 @@ public class NetworkManager : MonoBehaviour {
 		}
 	}
 	
-	public static void RefreshHostList ()
+	public  void RefreshHostList ()
 	{
 		Debug.Log ("Refreshing server list.........");
 		MasterServer.RequestHostList (gameType);
-		refreshing = true;
+		StartCoroutine( RefreshHostListInner());
 	}
 	
 	void OnPlayerConnected(NetworkPlayer player) {

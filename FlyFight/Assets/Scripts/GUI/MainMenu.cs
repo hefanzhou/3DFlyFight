@@ -504,7 +504,7 @@ public class MainMenu : MonoBehaviour {
 //		HideBackButton();
 		refreshButton.isEnabled = true;
 		
-		NetworkManager.RefreshHostList();
+		NetworkManager.instance.RefreshHostList();
 		refreshClicked = true;
 
 		launchButton.enabled = false;
@@ -533,7 +533,7 @@ public class MainMenu : MonoBehaviour {
 	
 	
 	public void OnRefreshClick() {
-		NetworkManager.RefreshHostList();
+		NetworkManager.instance.RefreshHostList();
 		refreshClicked = true;
 	}
 	
