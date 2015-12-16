@@ -55,7 +55,7 @@ public class GameplayManager : MonoBehaviour {
 
 		alreadyAwoken = true;
 		GameObject.DontDestroyOnLoad(this.gameObject);
-		InputManager.InvertYAxis = true;
+		InputManager.InvertYAxis = false;
 		GameplayManager.invertYAxis = true;
 		InputManager.Setup();
 		

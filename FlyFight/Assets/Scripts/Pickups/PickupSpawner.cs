@@ -61,7 +61,7 @@ public class PickupSpawner : MonoBehaviour {
 					Resources.Load(pathToPickupResource),
 				    Vector3.zero, 
 				    Quaternion.identity, 
-				    667) as GameObject
+				    0) as GameObject
 				);
 			}
 //			Debug.Log ("Pickup clone: " + pickupClone);

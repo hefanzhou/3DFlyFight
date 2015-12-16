@@ -46,7 +46,7 @@ public class GenerateTower : MonoBehaviour {
 						clone = Network.Instantiate(Resources.Load ("Cube"),
 						                            clonePosition, 
 						                            Quaternion.identity,
-						                            1) as GameObject;
+						                            0) as GameObject;
 						clone.transform.parent = this.transform;
 					}
 				}

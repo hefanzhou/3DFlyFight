@@ -47,7 +47,7 @@ public class PickupStickyMines : Pickup {
 				Resources.Load(mineResourcePath),
 				spaceship.gun.transform.position + spaceship.spaceshipMesh.transform.TransformDirection(spawnOffsetFromGun),
 				spaceship.gun.transform.rotation,
-				668
+				0
 			) as GameObject;
 		}
 		else {

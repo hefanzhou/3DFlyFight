@@ -91,7 +91,7 @@ public class SpaceshipGun : SpaceshipComponent {
 					cachedBullet,
 					this.transform.position, 
 					spaceshipModel.transform.rotation,
-					666
+					0
 				) as GameObject;
 			}
 			this.audio.PlayOneShot(shootingSound);

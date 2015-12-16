@@ -87,10 +87,8 @@ public class NetworkManager : MonoBehaviour {
 	public static void StartServer ()
 	{
 		Debug.Log ("Starting server.........");
-		int validPort = NetTool.GetAvailablePort();
 		// !Network.HavePublicAddress()); 不使用publicAdress 否则默认会去链接unity自己的穿透公共服务器
-		Network.InitializeServer(maxPlayersAllowed, validPort, false);
-		Debug.Log("Registering Host........." + validPort);
+		Network.InitializeServer(maxPlayersAllowed, 52341, false);
 		Random.seed = (int)Time.time;
 		//改为房间名
 		gameName = string.Format("Game {0}", Random.Range(100, 999));

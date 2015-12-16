@@ -127,7 +127,7 @@ public class SpaceshipHealth : SpaceshipComponent, IDamageable {
 					Resources.Load(deathExplosionResourcePath) as GameObject,
 					this.transform.position, 
 					spaceshipModel.transform.rotation,
-					123
+					0
 				) as GameObject;
 			}
 

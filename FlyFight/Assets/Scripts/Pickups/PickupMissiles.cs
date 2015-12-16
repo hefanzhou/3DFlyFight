@@ -52,7 +52,7 @@ public class PickupMissiles : Pickup {
 				Resources.Load(missileResourcePath),
 				spaceship.gun.transform.position + spaceship.gun.transform.TransformDirection(spawnOffsetFromGun), 
 				spaceship.gun.transform.rotation,
-				667
+				0
 			) as GameObject;
 		}
 
