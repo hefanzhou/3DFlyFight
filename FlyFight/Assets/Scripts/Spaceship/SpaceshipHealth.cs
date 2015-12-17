@@ -136,6 +136,7 @@ public class SpaceshipHealth : SpaceshipComponent, IDamageable {
 			timeUntilVulnerable = respawnInvulnerabilityTime;
 			if (!NetworkManager.IsSinglePlayer() && currentDamager != this.gameObject) {
 				matchManager.InformServerForKilledBy(lastHurtByPlayerID);
+				Debug.LogWarning("@@@@@@@@@@@@@tell server killed by " + lastHurtByPlayerID);
 			}
 		}
 	}

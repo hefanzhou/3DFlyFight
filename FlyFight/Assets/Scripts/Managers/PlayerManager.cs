@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 public class PlayerManager {
 
-	public Dictionary<NetworkPlayer, PlayerInfo> allPlayerDic = new Dictionary<NetworkPlayer, PlayerInfo>();
-	public List<PlayerInfo> RankList = new List<PlayerInfo>();	//分数排名
+	public List<PlayerInfo> playerInfoList = new List<PlayerInfo>();
 	public PlayerInfo mainPlayer = null;	
 	public string roomName = "roomName";						//房间名 对应创建游戏时的gameName 
 	public string myName = "myName";							//自己的名字
@@ -20,24 +19,15 @@ public class PlayerManager {
 		}
 	}
 
-	public void OutputLog()
-	{
-		Debug.Log("Received RPC to update client information");
-		Debug.Log("Number of players: " + allPlayerDic.Count);
-		foreach (var kv in allPlayerDic)
-		{
-			Debug.Log("name :[" + kv.Value.name + "] ip:[" + kv.Value.networkPlayer.ipAddress + "]");
-		}
-	}
 
 	public void UpdateClientPlayerInfo()
 	{
-		allPlayerDic.Clear();
+		playerInfoList.Clear();
 		foreach (var player in Network.connections)
 		{
 			AddPlayer(new PlayerInfo(player));
 		}
-		foreach (var kv in allPlayerDic)
+		foreach (var kv in playerInfoList)
 		{
 			
 		}
@@ -45,34 +35,18 @@ public class PlayerManager {
 	}
 	public void AddPlayer(PlayerInfo player)
 	{
-		allPlayerDic.Add(player.networkPlayer, player);
+		playerInfoList.Add(player);
 	}
 
-	public void RemovePlayer(NetworkPlayer netPlayer)
+	public void RemovePlayer(PlayerInfo netPlayer)
 	{
-		allPlayerDic.Remove(netPlayer);
+		playerInfoList.Remove(netPlayer);
 	}
 
-	public void RefreshRankList()
-	{
-		List<KeyValuePair<NetworkPlayer, PlayerInfo>> myList = new List<KeyValuePair<NetworkPlayer, PlayerInfo>>(allPlayerDic);
-		myList.Sort(delegate(KeyValuePair<NetworkPlayer, PlayerInfo> s1, KeyValuePair<NetworkPlayer, PlayerInfo> s2)
-		{
-			return s2.Value.CompareTo(s1.Value);
-		});
-		RankList.Clear();
-		foreach (var kv in myList)
-		{
-			RankList.Add(kv.Value);
-		}
-		myList.Clear();
-	}
 
-	public PlayerInfo GetPlayerInfo(NetworkPlayer netWorkPlayer)
+	public PlayerInfo GetPlayerInfo(int id)
 	{
-		PlayerInfo value = null;
-		allPlayerDic.TryGetValue(netWorkPlayer, out value);
-		return value;
+		return playerInfoList[id];
 	}
 }
 

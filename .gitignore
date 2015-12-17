@@ -10,3 +10,4 @@ FlyFight/obj/
 *.userprefs
 *.DS_store
 *.suo
+/FlyFight/CodeMapALL.dgml
