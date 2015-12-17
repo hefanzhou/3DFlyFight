@@ -198,13 +198,13 @@ public class NetworkManager : MonoBehaviour {
 		Network.Disconnect();
 	}
 	
-	public static int GetPlayerIndex(string ipAddr)
+	public static int GetPlayerIndex(NetworkPlayer netWorkPlayer)
 	{
 		for(int i=0; i<playerList.Count; i++)
 		{
-			Debug.Log("In getplayerindex: given string " + ipAddr);
+			Debug.Log("In getplayerindex: given string " + netWorkPlayer);
 			Debug.Log("In getplayerindex: currently looking at player " + i + " with ip " + playerList[i].ipAddress);
-			if (playerList[i].ipAddress.Equals(ipAddr))
+			if (playerList[i].Equals(netWorkPlayer))
 			{
 				return i;
 			}
@@ -213,8 +213,9 @@ public class NetworkManager : MonoBehaviour {
 		return -1;
 	}
 
-	public static NetworkPlayer GetPlayer(string ipAddr) {
-		return playerList[GetPlayerIndex(ipAddr)];
+	public static NetworkPlayer GetPlayer(NetworkPlayer netWorkPlayer)
+	{
+		return playerList[GetPlayerIndex(netWorkPlayer)];
 	}
 
 	public static List<NetworkPlayer> GetPlayerList() {
@@ -267,7 +268,7 @@ public class NetworkManager : MonoBehaviour {
 	private void FinalizeClientPlayerInfo() {
 
 		Debug.Log("PlayerList size: " + playerList.Count);
-		playerID = GetPlayerIndex(Network.player.ipAddress);
+		playerID = GetPlayerIndex(Network.player);
 
 		Debug.Log("PlayerList finished constructing. Given player ID: " + playerID);
 		Debug.Log("Received RPC to update client information");

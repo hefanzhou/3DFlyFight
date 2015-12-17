@@ -43,8 +43,8 @@ public class HexLaserBullet : Bullet {
 
 		if (target == null && 
 		    	hitGameObject != sourceSpaceship.gameObject && 
-		   		Vector3.Distance(hitGameObject.transform.position, this.transform.position) > hitRadius
-		    ) {
+		   		Vector3.Distance(hitGameObject.transform.position, this.transform.position) > hitRadius)
+		{
 
 			ITargetable targetableObject = (ITargetable)hitGameObject.GetComponent(typeof(ITargetable));
 			if (targetableObject != null) {
@@ -53,8 +53,10 @@ public class HexLaserBullet : Bullet {
 				return;
 			}
 		}
-		if (!alreadyDying && ShouldExplodeOnContact(other.gameObject)) {
-			if (hitGameObject == target || Vector3.Distance(hitGameObject.transform.position, this.transform.position) <= hitRadius) {
+		if (!alreadyDying && ShouldExplodeOnContact(other.gameObject)) 
+		{
+			if (hitGameObject == target || Vector3.Distance(hitGameObject.transform.position, this.transform.position) <= hitRadius) 
+			{
 				HandleHit(other.gameObject);
 			}
 		}

@@ -260,7 +260,7 @@ public class SpaceshipHealth : SpaceshipComponent, IDamageable {
 				Debug.Log("What is this index? Who does it belong to? " + index);
 				
 				Debug.Log("Damager ipaddress: " + damager.networkView.owner.ipAddress);
-				Debug.Log("Damager owned by player " + NetworkManager.GetPlayerIndex(damager.networkView.owner.ipAddress));
+				Debug.Log("Damager owned by player " + NetworkManager.GetPlayerIndex(damager.networkView.owner));
 				Debug.Log("Damage about to be applied to player: " + spaceship.ownerPlayerID);
 
 				if (ship != null) {

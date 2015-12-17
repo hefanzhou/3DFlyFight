@@ -71,7 +71,7 @@ public class Spaceship : MonoBehaviour, ITargetable {
 			spaceshipCamera.gameObject.SetActive(false);
 			crosshairs.SetActive(false);
 		}
-		ownerPlayerID = NetworkManager.GetPlayerIndex(this.networkView.owner.ipAddress);
+		ownerPlayerID = NetworkManager.GetPlayerIndex(this.networkView.owner);
 	}
 	
 	
