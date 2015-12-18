@@ -142,7 +142,10 @@ public class UIScrollView : MonoBehaviour
 	/// </summary>
 
 	public OnDragNotification onStoppedMoving;
-
+    public GameObject verticalTipTop;
+    public GameObject verticalTipBottom;
+    public GameObject horizontalTipLeft;
+    public GameObject horizontalTipRight;
 	// Deprecated functionality. Use 'movement' instead.
 	[HideInInspector][SerializeField] Vector3 scale = new Vector3(1f, 0f, 0f);
 
@@ -607,6 +610,219 @@ public class UIScrollView : MonoBehaviour
 
 		// Update the scrollbars, reflecting this change
 		if (updateScrollbars) UpdateScrollbars(mDragID == -10);
+	}
+
+	/// <summary>
+	/// 计算 SetDragAmount 对应的子元素位置(即SpringPanel所需参数)，算法参考 SetDragAmount
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="y"></param>
+	/// <returns></returns>
+	public Vector3 CalcPosByDragAmount(float x, float y)
+	{
+		Bounds b = bounds;
+		if (b.min.x == b.max.x || b.min.y == b.max.y) new Vector3();
+
+		Vector4 clip = mPanel.finalClipRegion;
+
+		float hx = clip.z * 0.5f;
+		float hy = clip.w * 0.5f;
+		float left = b.min.x + hx;
+		float right = b.max.x - hx;
+		float bottom = b.min.y + hy;
+		float top = b.max.y - hy;
+
+		if (mPanel.clipping == UIDrawCall.Clipping.SoftClip)
+		{
+			left -= mPanel.clipSoftness.x;
+			right += mPanel.clipSoftness.x;
+			bottom -= mPanel.clipSoftness.y;
+			top += mPanel.clipSoftness.y;
+		}
+
+		// Calculate the offset based on the scroll value
+		float ox = Mathf.Lerp(left, right, x);
+		float oy = Mathf.Lerp(top, bottom, y);
+
+		Vector3 pos = mTrans.localPosition;
+		if (canMoveHorizontally) pos.x += clip.x - ox;
+		if (canMoveVertically) pos.y += clip.y - oy;
+
+		return pos;
+	}
+
+	/// <summary>
+	/// Changes the drag distance of the panel
+	/// (0, 0) is the top-left corner
+	/// </summary>
+
+	public void SetDragDistance(float x, float y, bool updateScrollbars)
+	{
+		Bounds b = bounds;
+		if (b.min.x == b.max.x || b.min.y == b.max.y) return;
+		Vector4 cr = mPanel.finalClipRegion;
+
+		float amountX;
+		if (b.extents.x * 2 <= cr.z)	//panel can fit
+			amountX = 0;
+		else
+			amountX = x / (b.extents.x * 2 - cr.z);
+
+		float amountY;
+		if (b.extents.y * 2 <= cr.w)	//panel can fit
+			amountY = 0;
+		else
+			amountY = y / (b.extents.y * 2 - cr.w);
+
+		SetDragAmount(amountX, amountY, updateScrollbars);
+	}
+
+	/// <summary>
+	/// 计算 SetDragDistance 对应的子元素位置(即SpringPanel所需参数)，算法参考 SetDragDistance
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="y"></param>
+	/// <returns></returns>
+	public Vector3 CalcPosByDragDistance(float x, float y)
+	{
+		Bounds b = bounds;
+		if (b.min.x == b.max.x || b.min.y == b.max.y) new Vector3();
+		Vector4 cr = GetRealClip();
+
+		float amountX;
+		if (b.extents.x * 2 <= cr.z)	//panel can fit
+			amountX = 0;
+		else
+			amountX = x / (b.extents.x * 2 - cr.z);
+
+		float amountY;
+		if (b.extents.y * 2 <= cr.w)	//panel can fit
+			amountY = 0;
+		else
+			amountY = y / (b.extents.y * 2 - cr.w);
+
+		return CalcPosByDragAmount(amountX, amountY);
+	}
+
+	/// <summary>
+	/// 拖动窗口位置，使给定范围可见
+	/// </summary>
+	/// <param name="bounds"></param>
+	public void DragToMakeVisible(Transform targetTransform, float strength)
+	{
+		if (mPanel == null) mPanel = GetComponent<UIPanel>();
+
+		Bounds targetBounds = NGUIMath.CalculateRelativeWidgetBounds(this.transform, targetTransform);
+		Bounds scrollViewBounds = this.bounds;
+		Bounds clipBounds = GetClipBounds();
+
+		bool bNeedDragY, bAlignToTop;
+		if (targetBounds.max.y > clipBounds.max.y)	//目标上缘在窗口上方
+		{
+			bNeedDragY = true;
+			bAlignToTop = true;
+		}
+		else	//目标上缘在窗口中间或下方
+		{
+			if (targetBounds.min.y < clipBounds.min.y)	//目标下缘在窗口下方
+			{
+				if (targetBounds.extents.y <= clipBounds.extents.y)	//能显示全
+				{
+					bNeedDragY = true;
+					bAlignToTop = false;
+				}
+				else	//显示不全
+				{
+					bNeedDragY = true;
+					bAlignToTop = true;
+				}
+			}
+			else	//目标下缘在中间，不动
+			{
+				bNeedDragY = false;
+				bAlignToTop = false;
+			}
+		}
+
+		bool bNeedDragX, bAlignToLeft;
+		if (targetBounds.min.x < clipBounds.min.x)	//目标左缘在窗口左方
+		{
+			bNeedDragX = true;
+			bAlignToLeft = true;
+		}
+		else	//目标左缘在窗口中间或右方
+		{
+			if (targetBounds.max.x > clipBounds.max.x)	//目标右缘在窗口右方
+			{
+				if (targetBounds.extents.x <= clipBounds.extents.x)	//能显示全
+				{
+					bNeedDragX = true;
+					bAlignToLeft = false;
+				}
+				else	//显示不全
+				{
+					bNeedDragX = true;
+					bAlignToLeft = true;
+				}
+			}
+			else	//目标右缘在中间，不动
+			{
+				bNeedDragX = false;
+				bAlignToLeft = false;
+			}
+		}
+
+		float dy;
+		if (bNeedDragY)
+		{
+			if (bAlignToTop)
+				dy = scrollViewBounds.max.y - targetBounds.max.y;
+			else
+				dy = scrollViewBounds.max.y - (targetBounds.min.y + clipBounds.extents.y * 2);
+		}
+		else
+		{
+			dy = scrollViewBounds.max.y - clipBounds.max.y;
+		}
+
+		float dx;
+		if (bNeedDragX)
+		{
+			if (bAlignToLeft)
+				dx = targetBounds.min.x - scrollViewBounds.min.x;
+			else
+				dx = (targetBounds.max.x - clipBounds.extents.x * 2) - scrollViewBounds.min.x;
+		}
+		else
+		{
+			dx = clipBounds.min.x - scrollViewBounds.min.x;
+		}
+
+		Vector3 dragPos = CalcPosByDragDistance(dx, dy);
+
+		SpringPanel.Begin(mPanel.cachedGameObject, dragPos, strength);
+	}
+
+	private Vector4 GetRealClip ()
+	{
+		Vector4 cr = mPanel.finalClipRegion;
+		if (mPanel.clipping == UIDrawCall.Clipping.SoftClip)
+		{
+			cr.z -= mPanel.clipSoftness.x * 2;
+			cr.w -= mPanel.clipSoftness.y * 2;
+		}
+		return cr;
+	}
+
+	/// <summary>
+	/// 取得当前拖动位置下窗口显示范围(相对于ScrollView的变换)
+	/// </summary>
+	/// <returns></returns>
+	public Bounds GetClipBounds ()
+	{
+		Vector4 clip = GetRealClip();
+
+		return new Bounds(new Vector3(clip.x, clip.y, 0), new Vector3(clip.z, clip.w, 0));
 	}
 
 	/// <summary>
