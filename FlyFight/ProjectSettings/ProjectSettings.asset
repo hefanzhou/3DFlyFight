@@ -16,7 +16,7 @@ PlayerSettings:
   defaultCursor: {fileID: 2800000, guid: 5ac30dca6858f0448b61d8bfabc09770, type: 3}
   cursorHotspot: {x: 16, y: 16}
   defaultScreenWidth: 1024
-  defaultScreenHeight: 768
+  defaultScreenHeight: 579
   defaultScreenWidthWeb: 960
   defaultScreenHeightWeb: 600
   m_RenderingPath: 1

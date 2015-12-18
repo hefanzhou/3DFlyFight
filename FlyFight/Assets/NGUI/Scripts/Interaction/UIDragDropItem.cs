@@ -4,6 +4,7 @@
 //----------------------------------------------
 
 using UnityEngine;
+using System.Collections;
 
 /// <summary>
 /// UIDragDropItem is a base script for your own Drag & Drop operations.
@@ -32,11 +33,20 @@ public class UIDragDropItem : MonoBehaviour
 
 	public bool cloneOnDrag = false;
 
+	/// <summary>
+	/// How long the user has to press on an item before the drag action activates.
+	/// </summary>
+
+	[HideInInspector]
+	public float pressAndHoldDelay = 1f;
+
 #region Common functionality
 
 	protected Transform mTrans;
 	protected Transform mParent;
 	protected Collider mCollider;
+	protected Collider2D mCollider2D;
+	protected UIButton mButton;
 	protected UIRoot mRoot;
 	protected UIGrid mGrid;
 	protected UITable mTable;
@@ -52,6 +62,8 @@ public class UIDragDropItem : MonoBehaviour
 	{
 		mTrans = transform;
 		mCollider = collider;
+		mCollider2D = collider2D;
+		mButton = GetComponent<UIButton>();
 		mDragScrollView = GetComponent<UIDragScrollView>();
 	}
 
@@ -84,7 +96,7 @@ public class UIDragDropItem : MonoBehaviour
 			}
 			else if (restriction == Restriction.PressAndHold)
 			{
-				if (mPressTime + 1f > RealTime.time) return;
+				if (mPressTime + pressAndHoldDelay > RealTime.time) return;
 			}
 		}
 
@@ -98,9 +110,6 @@ public class UIDragDropItem : MonoBehaviour
 			UIButtonColor bc = clone.GetComponent<UIButtonColor>();
 			if (bc != null) bc.defaultColor = GetComponent<UIButtonColor>().defaultColor;
 
-			UICamera.Notify(UICamera.currentTouch.pressed, "OnPress", false);
-
-			UICamera.currentTouch.pressed = clone;
 			UICamera.currentTouch.dragged = clone;
 
 			UIDragDropItem item = clone.GetComponent<UIDragDropItem>();
@@ -142,7 +151,9 @@ public class UIDragDropItem : MonoBehaviour
 		if (mDragScrollView != null) mDragScrollView.enabled = false;
 
 		// Disable the collider so that it doesn't intercept events
-		if (mCollider != null) mCollider.enabled = false;
+		if (mButton != null) mButton.isEnabled = false;
+		else if (mCollider != null) mCollider.enabled = false;
+		else if (mCollider2D != null) mCollider2D.enabled = false;
 
 		mTouchID = UICamera.currentTouchID;
 		mParent = mTrans.parent;
@@ -157,6 +168,12 @@ public class UIDragDropItem : MonoBehaviour
 		Vector3 pos = mTrans.localPosition;
 		pos.z = 0f;
 		mTrans.localPosition = pos;
+
+		TweenPosition tp = GetComponent<TweenPosition>();
+		if (tp != null) tp.enabled = false;
+
+		SpringPosition sp = GetComponent<SpringPosition>();
+		if (sp != null) sp.enabled = false;
 
 		// Notify the widgets that the parent has changed
 		NGUITools.MarkParentAsChanged(gameObject);
@@ -183,7 +200,11 @@ public class UIDragDropItem : MonoBehaviour
 		if (!cloneOnDrag)
 		{
 			mTouchID = int.MinValue;
-			if (mCollider != null) mCollider.enabled = true;
+
+			// Re-enable the collider
+			if (mButton != null) mButton.isEnabled = true;
+			else if (mCollider != null) mCollider.enabled = true;
+			else if (mCollider2D != null) mCollider2D.enabled = true;
 
 			// Is there a droppable container?
 			UIDragDropContainer container = surface ? NGUITools.FindInParents<UIDragDropContainer>(surface) : null;
@@ -210,7 +231,7 @@ public class UIDragDropItem : MonoBehaviour
 
 			// Re-enable the drag scroll view script
 			if (mDragScrollView != null)
-				mDragScrollView.enabled = true;
+				StartCoroutine(EnableDragScrollView());
 
 			// Notify the widgets that the parent has changed
 			NGUITools.MarkParentAsChanged(gameObject);
@@ -219,5 +240,16 @@ public class UIDragDropItem : MonoBehaviour
 			if (mGrid != null) mGrid.repositionNow = true;
 		}
 		else NGUITools.Destroy(gameObject);
+	}
+
+	/// <summary>
+	/// Re-enable the drag scroll view script at the end of the frame.
+	/// Reason: http://www.tasharen.com/forum/index.php?topic=10203.0
+	/// </summary>
+
+	protected IEnumerator EnableDragScrollView ()
+	{
+		yield return new WaitForEndOfFrame();
+		if (mDragScrollView != null) mDragScrollView.enabled = true;
 	}
 }
