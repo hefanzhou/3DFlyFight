@@ -14,8 +14,11 @@ public class TweenRotation : UITweener
 {
 	public Vector3 from;
 	public Vector3 to;
-
+	public bool isRotationByPoint = false;
+	public Vector3 origin;
 	Transform mTrans;
+	private Vector3 orignPositon = Vector3.zero;
+	public float angel = 0;
 
 	public Transform cachedTransform { get { if (mTrans == null) mTrans = transform; return mTrans; } }
 
@@ -32,21 +35,39 @@ public class TweenRotation : UITweener
 	/// Tween the value.
 	/// </summary>
 
+	void Start()
+	{
+		base.Start();
+		orignPositon = cachedTransform.position;
+	}
 	protected override void OnUpdate (float factor, bool isFinished)
 	{
-		value = Quaternion.Euler(new Vector3(
-			Mathf.Lerp(from.x, to.x, factor),
-			Mathf.Lerp(from.y, to.y, factor),
-			Mathf.Lerp(from.z, to.z, factor)));
+		if (isRotationByPoint)
+		{
+			cachedTransform.RotateAround(origin, Vector3.up, angel * Time.deltaTime);
+		}
+		else
+		{
+			value = Quaternion.Euler(new Vector3(
+				Mathf.Lerp(from.x, to.x, factor),
+				Mathf.Lerp(from.y, to.y, factor),
+				Mathf.Lerp(from.z, to.z, factor)));
+		}
 	}
 
 	/// <summary>
 	/// Start the tweening operation.
 	/// </summary>
-
+	public void ResetPositon()
+	{
+		cachedTransform.position = orignPositon;
+		Debug.Log("reset");
+	}
 	static public TweenRotation Begin (GameObject go, float duration, Quaternion rot)
 	{
+		
 		TweenRotation comp = UITweener.Begin<TweenRotation>(go, duration);
+
 		comp.from = comp.value.eulerAngles;
 		comp.to = rot.eulerAngles;
 

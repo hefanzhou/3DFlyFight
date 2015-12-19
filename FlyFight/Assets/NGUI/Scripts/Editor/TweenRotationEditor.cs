@@ -20,11 +20,24 @@ public class TweenRotationEditor : UITweenerEditor
 		Vector3 from = EditorGUILayout.Vector3Field("From", tw.from);
 		Vector3 to = EditorGUILayout.Vector3Field("To", tw.to);
 
+		EditorGUILayout.BeginHorizontal();
+		EditorGUILayout.LabelField("IsRotationByPoint");
+		tw.isRotationByPoint = EditorGUILayout.Toggle(tw.isRotationByPoint);
+		EditorGUILayout.EndHorizontal();
+		Vector3 origin = Vector3.zero;
+		float angle = 0;
+		if (tw.isRotationByPoint)
+		{
+			origin = EditorGUILayout.Vector3Field("Origin", tw.origin);
+			angle = EditorGUILayout.FloatField("Angle" , tw.angel);
+		}
 		if (GUI.changed)
 		{
 			NGUIEditorTools.RegisterUndo("Tween Change", tw);
 			tw.from = from;
 			tw.to = to;
+			tw.origin = origin;
+			tw.angel = angle;
 			NGUITools.SetDirty(tw);
 		}
 
