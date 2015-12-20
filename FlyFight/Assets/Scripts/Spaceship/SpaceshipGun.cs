@@ -94,7 +94,7 @@ public class SpaceshipGun : SpaceshipComponent {
 					0
 				) as GameObject;
 			}
-			this.audio.PlayOneShot(shootingSound);
+			this.GetComponent<AudioSource>().PlayOneShot(shootingSound);
 
 			Bullet bullet = bulletGameObject.GetComponent<Bullet>();
 			bullet.direction = spaceshipModel.transform.forward;
@@ -104,7 +104,7 @@ public class SpaceshipGun : SpaceshipComponent {
 			
 			timeUntilCanShoot = cooldownBetweenShots;
 			currentEnergy -= energyPerShot;
-			this.audio.PlayOneShot(shootingSound);
+			this.GetComponent<AudioSource>().PlayOneShot(shootingSound);
 		}
 	}
 	

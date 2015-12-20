@@ -4,8 +4,8 @@ using System.Collections;
 
 public class PickupFlamethrower : Pickup {
 
-	public PlaygroundParticles laserBeamEffect;
-	public PlaygroundPresetLaser laserBeamEffectScript;
+//	public Particle laserBeamEffect;
+//	public PlaygroundPresetLaser laserBeamEffectScript;
 	
 	public float damageRate = 30.0f;
 	public float laserHitForce = 1000.0f;
@@ -20,12 +20,12 @@ public class PickupFlamethrower : Pickup {
 
 	public override void Update() {
 		if (!active) {
-			laserBeamEffect.emissionRate = 0.0f;
+//			laserBeamEffect.emissionRate = 0.0f;
 			return;
 		}
 		if (spaceship != null && spaceship.shooting) {
 			currentEnergy -= energyDrainRate*Time.deltaTime;
-			laserBeamEffect.emissionRate = 1.0f;	
+//			laserBeamEffect.emissionRate = 1.0f;	
 			
 			Ray ray = new Ray(spaceship.spaceshipModelPitchYaw.transform.position, spaceship.spaceshipModelPitchYaw.transform.forward);
 			RaycastHit hit;
@@ -42,7 +42,7 @@ public class PickupFlamethrower : Pickup {
 		}
 		else {
 			hitGameObject = null;
-			laserBeamEffect.emissionRate = 0.0f;
+//			laserBeamEffect.emissionRate = 0.0f;
 		}
 	}
 
@@ -81,9 +81,9 @@ public class PickupFlamethrower : Pickup {
 
 	public override void OnPickup (Spaceship spaceship) {
 		base.OnPickup (spaceship);
-		laserBeamEffect.transform.localScale = Vector3.one;
-		laserBeamEffect.sourceTransform = spaceship.spaceshipModelPitchYaw.transform;
-		laserBeamEffectScript.laserMaxDistance = laserLength;
+//		laserBeamEffect.transform.localScale = Vector3.one;
+//		laserBeamEffect.sourceTransform = spaceship.spaceshipModelPitchYaw.transform;
+//		laserBeamEffectScript.laserMaxDistance = laserLength;
 		currentEnergy = maxEnergy;
 		active = true;
 	}

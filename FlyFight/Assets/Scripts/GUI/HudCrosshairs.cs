@@ -20,7 +20,7 @@ public class HudCrosshairs : SpaceshipComponent {
 		debugLine.SetWidth(10f, 10f);
 		debugLine.SetColors(Color.blue, Color.green);
 
-		this.renderer.material.renderQueue = 4000;
+		this.GetComponent<Renderer>().material.renderQueue = 4000;
 	}
 
 

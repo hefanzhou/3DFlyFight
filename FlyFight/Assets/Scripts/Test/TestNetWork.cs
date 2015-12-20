@@ -67,11 +67,11 @@ namespace Test
 
 			if (GUILayout.Button("beginGame"))
 			{
-				networkView.RPC("InitiScence", RPCMode.AllBuffered);
+				GetComponent<NetworkView>().RPC("InitiScence", RPCMode.AllBuffered);
 			}
 			if (GUILayout.Button("RPC"))
 			{
-				GameObject.Find("/Go1").GetComponent<TestPRC>().networkView.RPC("PrintSome", RPCMode.AllBuffered);
+				GameObject.Find("/Go1").GetComponent<TestPRC>().GetComponent<NetworkView>().RPC("PrintSome", RPCMode.AllBuffered);
 			}
 			if (GUILayout.Button("clearRPC"))
 			{
@@ -130,7 +130,7 @@ namespace Test
 		void OnConnectedToServer()
 		{
 			Debug.Log("Connected to server");
-			networkView.RPC("SendMyInfo", RPCMode.Server, myName);
+			GetComponent<NetworkView>().RPC("SendMyInfo", RPCMode.Server, myName);
 		}
 		void OnFailedToConnect(NetworkConnectionError error)
 		{

@@ -27,7 +27,7 @@ public class Splash : MonoBehaviour {
 			yield return null;
 		}
 
-		audio.PlayOneShot(logoSoundClip);
+		GetComponent<AudioSource>().PlayOneShot(logoSoundClip);
 		yield return new WaitForSeconds(1.35f);
 
 		while (logoPanel.alpha > 0.0f) {

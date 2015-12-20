@@ -339,7 +339,7 @@ public class HudManager : MonoBehaviour {
 			LevelManager.ReloadLevel();
 		}
 		else {
-			networkView.RPC("NetworkReplayMatch", RPCMode.All);
+			GetComponent<NetworkView>().RPC("NetworkReplayMatch", RPCMode.All);
 		}
 	}
 

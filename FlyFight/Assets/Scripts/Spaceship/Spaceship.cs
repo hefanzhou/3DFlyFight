@@ -67,16 +67,16 @@ public class Spaceship : MonoBehaviour, ITargetable {
 
 
 	void Awake() {
-		if (!NetworkManager.IsSinglePlayer() && !networkView.isMine) {
+		if (!NetworkManager.IsSinglePlayer() && !GetComponent<NetworkView>().isMine) {
 			spaceshipCamera.gameObject.SetActive(false);
 			crosshairs.SetActive(false);
 		}
-		ownerPlayerID = NetworkManager.GetPlayerIndex(this.networkView.owner);
+		ownerPlayerID = NetworkManager.GetPlayerIndex(this.GetComponent<NetworkView>().owner);
 	}
 	
 	
 	void FixedUpdate () {
-		if (NetworkManager.IsSinglePlayer() || networkView.isMine) {
+		if (NetworkManager.IsSinglePlayer() || GetComponent<NetworkView>().isMine) {
 			HandleInput();
 			if (selectPressedLastFrame && !InputManager.ActiveDevice.GetControl(InputControlType.Select).IsPressed) {
 				Debug.Log ("Flipping Y-Axis Invert...");
@@ -90,12 +90,12 @@ public class Spaceship : MonoBehaviour, ITargetable {
 	
 	void Update () {
 		// Update visibility
-		spaceshipMesh.renderer.enabled = isVisible;
-		collider.enabled = isVisible;
+		spaceshipMesh.GetComponent<Renderer>().enabled = isVisible;
+		GetComponent<Collider>().enabled = isVisible;
 		for (int i = 0; i < effects.Length; ++i) {
 			effects[i].SetActive(isVisible);
 		}
-		if (NetworkManager.IsSinglePlayer() || networkView.isMine) {
+		if (NetworkManager.IsSinglePlayer() || GetComponent<NetworkView>().isMine) {
 			crosshairs.gameObject.SetActive(isVisible);
 		}
 
@@ -103,7 +103,7 @@ public class Spaceship : MonoBehaviour, ITargetable {
 		controls.enabled = controlsEnabled;
 		shooting = shooting && controlsEnabled;
 			
-		if (NetworkManager.IsSinglePlayer() || networkView.isMine) {
+		if (NetworkManager.IsSinglePlayer() || GetComponent<NetworkView>().isMine) {
 			forward = spaceshipModelRoll.transform.forward;
 			right = spaceshipModelRoll.transform.right;
 		}

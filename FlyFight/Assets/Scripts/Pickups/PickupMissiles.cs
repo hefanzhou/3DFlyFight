@@ -61,7 +61,7 @@ public class PickupMissiles : Pickup {
 		missile.sourceSpaceship = spaceship;
 		
 		missileGameObject.SetActive(true);
-		spaceship.gun.audio.PlayOneShot(shootingSound);
+		spaceship.gun.GetComponent<AudioSource>().PlayOneShot(shootingSound);
 	}
 
 

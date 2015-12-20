@@ -53,7 +53,7 @@ public class MatchManager : MonoBehaviour {
 		
 		if(Network.isServer) {
 			timeStartMatch = Time.time;
-			networkView.RPC("SetStartTime", RPCMode.AllBuffered, timeStartMatch);
+			GetComponent<NetworkView>().RPC("SetStartTime", RPCMode.AllBuffered, timeStartMatch);
 		}
 		currentLevel = LevelManager.GetLoadedLevel();
 	}
@@ -79,7 +79,7 @@ public class MatchManager : MonoBehaviour {
 			timeFinishMatch = timeStartMatch + timeElapsed;
 //			Debug.Log ("Match ended, Winner is Player " + CheckMatchScoreLeader() + " at time '" + timeFinishMatch + "'!");
 			matchOver = true;
-			networkView.RPC("OnMatchOver", RPCMode.All, CheckMatchScoreLeader());
+			GetComponent<NetworkView>().RPC("OnMatchOver", RPCMode.All, CheckMatchScoreLeader());
 		}
 		
 		if (Network.isServer) {
@@ -164,7 +164,7 @@ public class MatchManager : MonoBehaviour {
 		
 		if(playerID != -1) {
 			if (Network.isClient) {
-				networkView.RPC("ServerTallyKill", RPCMode.Server, playerID, NetworkManager.GetPlayerID());
+				GetComponent<NetworkView>().RPC("ServerTallyKill", RPCMode.Server, playerID, NetworkManager.GetPlayerID());
 			}
 			else {
 				IncrementScore(playerID, NetworkManager.GetPlayerID());
@@ -188,7 +188,7 @@ public class MatchManager : MonoBehaviour {
 		else {
 */
 		Debug.Log("Sending score update to all players with update for " + killer);
-		networkView.RPC("UpdatePlayerScores", RPCMode.All, killer, killscores[killer]);
+		GetComponent<NetworkView>().RPC("UpdatePlayerScores", RPCMode.All, killer, killscores[killer]);
 
 		if (killer == 0) {
 			lastKilledPlayerId = victim;
@@ -196,7 +196,7 @@ public class MatchManager : MonoBehaviour {
 		}
 		else {
 			Debug.Log ("Client about to RPC InformKillerOfVictim() w/ arguments " + NetworkManager.GetPlayerList()[killer] + " and " + victim);
-			networkView.RPC("InformKillerOfVictim", NetworkManager.GetPlayerList()[killer], victim);
+			GetComponent<NetworkView>().RPC("InformKillerOfVictim", NetworkManager.GetPlayerList()[killer], victim);
 		}
 	}
 	

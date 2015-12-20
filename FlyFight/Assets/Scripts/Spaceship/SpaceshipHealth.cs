@@ -65,14 +65,14 @@ public class SpaceshipHealth : SpaceshipComponent, IDamageable {
 		if (damageOverlayImage == null) {
 			Debug.Log("No UI2DSprite tagged with 'DamageOverlay' was found in the scene!");
 		}
-		Color indicatorColor = enemyIndicator.renderer.material.GetColor("_TintColor");
+		Color indicatorColor = enemyIndicator.GetComponent<Renderer>().material.GetColor("_TintColor");
 		indicatorColor.a = 0.0f;
-		enemyIndicator.renderer.material.SetColor("_Tint", indicatorColor);
+		enemyIndicator.GetComponent<Renderer>().material.SetColor("_Tint", indicatorColor);
 	
 		/* Make local copy of material so multiple of the same ships don't reference the same one. */
 		Material electricFieldCopy = Instantiate(electricField) as Material;
 		electricField = electricFieldCopy;
-		spaceshipShell.renderer.material = electricFieldCopy;
+		spaceshipShell.GetComponent<Renderer>().material = electricFieldCopy;
 		spaceshipShell.GetComponent<ScrollUVLinear>().materialToScroll = electricFieldCopy;
 	}
 	
@@ -143,7 +143,7 @@ public class SpaceshipHealth : SpaceshipComponent, IDamageable {
 
 
 	void HandleDamageOverlay() {
-		if (NetworkManager.IsSinglePlayer() || networkView.isMine) {
+		if (NetworkManager.IsSinglePlayer() || GetComponent<NetworkView>().isMine) {
 			if (damageOverlayImage == null) {
 				return;
 			}
@@ -195,27 +195,27 @@ public class SpaceshipHealth : SpaceshipComponent, IDamageable {
 
 
 	void HandleEnemyIndicators() {
-		if (NetworkManager.IsSinglePlayer() || networkView.isMine) {
+		if (NetworkManager.IsSinglePlayer() || GetComponent<NetworkView>().isMine) {
 			if (enemyIndicator == null) {
 				return;
 			}
-			Color indicatorColor = enemyIndicator.renderer.material.GetColor("_TintColor");
+			Color indicatorColor = enemyIndicator.GetComponent<Renderer>().material.GetColor("_TintColor");
 			if (IsDead()) {
 				indicatorColor.a = 0.0f;
-				enemyIndicator.renderer.material.SetColor("_TintColor", indicatorColor);
+				enemyIndicator.GetComponent<Renderer>().material.SetColor("_TintColor", indicatorColor);
 				return;
 			}
 			if (currentDamager != null && currentDamager != lastDamager) {
 				indicatorColor.a = enemyIndicatorOpacity;
 				remainingEnemyIndicatorTime = timeToShowEnemyIndicator;
 				enemyToTrack = currentDamager;
-				enemyIndicator.renderer.material.SetColor("_TintColor", indicatorColor);	
+				enemyIndicator.GetComponent<Renderer>().material.SetColor("_TintColor", indicatorColor);	
 				enemyIndicator.SetPosition(0, enemyToTrack.transform.position);
 				enemyIndicator.SetPosition(1, spaceship.transform.position);
 			}
 			else if (enemyToTrack != null) {
 				remainingEnemyIndicatorTime = Mathf.Max(0.0f, remainingEnemyIndicatorTime-Time.deltaTime);
-				enemyIndicator.renderer.material.SetColor("_TintColor", indicatorColor);	
+				enemyIndicator.GetComponent<Renderer>().material.SetColor("_TintColor", indicatorColor);	
 				enemyIndicator.SetPosition(0, enemyToTrack.transform.position);
 				enemyIndicator.SetPosition(1, spaceship.transform.position);
 			}
@@ -223,7 +223,7 @@ public class SpaceshipHealth : SpaceshipComponent, IDamageable {
 				indicatorColor.a = Mathf.Max(0.0f, indicatorColor.a-Time.deltaTime*enemyIndicatorHideSpeed);
 				lastDamager = null;
 			}
-			enemyIndicator.renderer.material.SetColor("_TintColor", indicatorColor);
+			enemyIndicator.GetComponent<Renderer>().material.SetColor("_TintColor", indicatorColor);
 		}
 	}
 	
@@ -236,7 +236,7 @@ public class SpaceshipHealth : SpaceshipComponent, IDamageable {
 		currentDamager = damager;
 
 		Debug.Log(string.Format("I am '{0}', My ipaddr is '{1}'", this.gameObject, Network.player.ipAddress, damager));
-		Debug.Log(string.Format ("My damager is '{0}', damager ipaddr is '{1}' ", damager, damager.networkView.owner.ipAddress));
+		Debug.Log(string.Format ("My damager is '{0}', damager ipaddr is '{1}' ", damager, damager.GetComponent<NetworkView>().owner.ipAddress));
 		Debug.Log (message);
 		Debug.Log ("Amount to damage: " + amount);
 
@@ -249,7 +249,7 @@ public class SpaceshipHealth : SpaceshipComponent, IDamageable {
 
 
 		if (timeUntilVulnerable <= 0.0f) {
-			if (networkView.isMine || NetworkManager.IsSinglePlayer()) {
+			if (GetComponent<NetworkView>().isMine || NetworkManager.IsSinglePlayer()) {
 				this.currentHealth = Mathf.Max(0.0f, this.currentHealth - amount);
 				//lastHurtByPlayerID = -1;
 			}
@@ -260,12 +260,12 @@ public class SpaceshipHealth : SpaceshipComponent, IDamageable {
 
 				Debug.Log("What is this index? Who does it belong to? " + index);
 				
-				Debug.Log("Damager ipaddress: " + damager.networkView.owner.ipAddress);
-				Debug.Log("Damager owned by player " + NetworkManager.GetPlayerIndex(damager.networkView.owner));
+				Debug.Log("Damager ipaddress: " + damager.GetComponent<NetworkView>().owner.ipAddress);
+				Debug.Log("Damager owned by player " + NetworkManager.GetPlayerIndex(damager.GetComponent<NetworkView>().owner));
 				Debug.Log("Damage about to be applied to player: " + spaceship.ownerPlayerID);
 
 				if (ship != null) {
-					networkView.RPC("NetworkTakeDamage", NetworkManager.GetPlayerList()[index], amount, ship.ownerPlayerID);
+					GetComponent<NetworkView>().RPC("NetworkTakeDamage", NetworkManager.GetPlayerList()[index], amount, ship.ownerPlayerID);
 				}
 			}
 		}

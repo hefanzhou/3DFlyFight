@@ -21,13 +21,13 @@ public class SpaceshipPickups : SpaceshipComponent {
 			spaceship.EnableGun();
 		}
 
-		if (NetworkManager.IsSinglePlayer() || networkView.isMine) {
+		if (NetworkManager.IsSinglePlayer() || GetComponent<NetworkView>().isMine) {
 
 			/* Swap guns if hitting bumpers. */
 			if (swappingWeapon) {
 				SwapEquippedItem();
 				if (!NetworkManager.IsSinglePlayer()) {
-					networkView.RPC("NetworkSwapEquippedItem", RPCMode.OthersBuffered);
+					GetComponent<NetworkView>().RPC("NetworkSwapEquippedItem", RPCMode.OthersBuffered);
 				}				
 			}
 		}

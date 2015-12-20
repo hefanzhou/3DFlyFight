@@ -12,7 +12,7 @@ public class GenerateTower : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Vector3 size = gameObjectToClone.renderer.bounds.size;
+		Vector3 size = gameObjectToClone.GetComponent<Renderer>().bounds.size;
 
 
 		for (int i = 0; i < width; ++i) {

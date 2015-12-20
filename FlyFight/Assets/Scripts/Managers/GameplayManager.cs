@@ -102,12 +102,12 @@ public class GameplayManager : MonoBehaviour {
 	private static void UpdateKeyboardControlsActive(InputDevice inputDevice) {
 		if (inputDevice.Name.Equals("Keyboard")) {
 			keyboardControlsActive = true;
-			Screen.showCursor = true;
+			Cursor.visible = true;
 			Screen.lockCursor = false;
 		}
 		else {
 			keyboardControlsActive = false;
-			Screen.showCursor = false;
+			Cursor.visible = false;
 			Screen.lockCursor = true;
 		}
 	}

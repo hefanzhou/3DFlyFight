@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour {
 
 	public virtual void Start() {
 		this.transform.forward = direction;
-		collider.isTrigger = true;
+		GetComponent<Collider>().isTrigger = true;
 	}
 
 	
@@ -26,7 +26,7 @@ public class Bullet : MonoBehaviour {
 			alreadyDying = true;
 			GameObject.Destroy(this.gameObject);
 		}
-		this.rigidbody.MovePosition(this.transform.position + speed*direction*Time.deltaTime);
+		this.GetComponent<Rigidbody>().MovePosition(this.transform.position + speed*direction*Time.deltaTime);
 	}
 
 

@@ -391,8 +391,8 @@ public class MainMenu : MonoBehaviour {
 			Debug.Log("Status of join button: " + joinServerButton.isEnabled);
 		}
 
-		if (networkView != null) {
-			Destroy(this.networkView);
+		if (GetComponent<NetworkView>() != null) {
+			Destroy(this.GetComponent<NetworkView>());
 		}
 		
 		// Exit
@@ -657,7 +657,7 @@ public class MainMenu : MonoBehaviour {
 	public void OnLobbyClick() {
 		HideAllMenus();
 		lobbyPanel.SetActive(true);
-		if (networkView == null) {
+		if (GetComponent<NetworkView>() == null) {
 			this.gameObject.AddComponent<NetworkView>();
 		}
 	}
@@ -669,8 +669,8 @@ public class MainMenu : MonoBehaviour {
 				MasterServer.UnregisterHost();
 			}
 			this.gameObject.AddComponent<NetworkView>();
-			networkView.RPC("SwitchLoad", RPCMode.All);
-			networkView.RPC("LevelLoader", RPCMode.All);
+			GetComponent<NetworkView>().RPC("SwitchLoad", RPCMode.All);
+			GetComponent<NetworkView>().RPC("LevelLoader", RPCMode.All);
 		//}
 	}
 	

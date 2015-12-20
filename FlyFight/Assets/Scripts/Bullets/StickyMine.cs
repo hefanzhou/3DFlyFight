@@ -44,7 +44,7 @@ public class StickyMine : MonoBehaviour {
 
 	IEnumerator Explode() {
 //		explosion.audio.PlayOneShot(explosionSound);
-		SphereCollider sphereCollider = this.collider as SphereCollider;
+		SphereCollider sphereCollider = this.GetComponent<Collider>() as SphereCollider;
 		float originalRadius = sphereCollider.radius;
 		explosion.SetActive(true);
 		explosion.transform.parent = null;
@@ -91,7 +91,7 @@ public class StickyMine : MonoBehaviour {
 
 		// Stick on whatever collides
 		if (!alreadyDying) {
-			SphereCollider sphereCollider = this.collider as SphereCollider;
+			SphereCollider sphereCollider = this.GetComponent<Collider>() as SphereCollider;
 			sphereCollider.radius = stuckRadius;
 			stuckObjectToMine = this.transform.position - collision.transform.position;
 			stuckObject = collision.gameObject;

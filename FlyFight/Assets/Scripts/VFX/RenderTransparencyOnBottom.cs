@@ -4,7 +4,7 @@ using System.Collections;
 public class RenderTransparencyOnBottom : MonoBehaviour {
 	
 	void Start () {
-		this.renderer.material.renderQueue = 3000;
+		this.GetComponent<Renderer>().material.renderQueue = 3000;
 	}
 	
 }

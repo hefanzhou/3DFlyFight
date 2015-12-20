@@ -32,14 +32,14 @@ public class SpaceshipControl : SpaceshipComponent, ITargetable {
 	
 	
 	public override void Update () {
-		if (NetworkManager.IsSinglePlayer() || networkView.isMine) {
+		if (NetworkManager.IsSinglePlayer() || GetComponent<NetworkView>().isMine) {
 			base.Update();
 		}
 	}
 
 
 	void FixedUpdate () {
-		if (NetworkManager.IsSinglePlayer() || networkView.isMine) {
+		if (NetworkManager.IsSinglePlayer() || GetComponent<NetworkView>().isMine) {
 			HandleRotation();
 			HandleMovement();
 			HandleTilt();
@@ -48,7 +48,7 @@ public class SpaceshipControl : SpaceshipComponent, ITargetable {
 	
 	
 	void HandleMovement() {
-		spaceship.rigidbody.velocity = Vector3.zero;
+		spaceship.GetComponent<Rigidbody>().velocity = Vector3.zero;
 		
 		/* Adjust velocities based on current spaceship behavior. */
 		if (boosting) {
@@ -82,7 +82,7 @@ public class SpaceshipControl : SpaceshipComponent, ITargetable {
 				else {
 					adjustedForward = Vector3.Reflect(adjustedForward, hit.normal);
 					
-					this.rigidbody.MoveRotation(
+					this.GetComponent<Rigidbody>().MoveRotation(
 						Quaternion.Slerp (
 							this.transform.localRotation,
 							Quaternion.Euler(adjustedForward),
@@ -94,8 +94,8 @@ public class SpaceshipControl : SpaceshipComponent, ITargetable {
 		}
 		
 		/* Boost forward. */
-		rigidbody.MovePosition(
-			rigidbody.position + Vector3.Slerp(
+		GetComponent<Rigidbody>().MovePosition(
+			GetComponent<Rigidbody>().position + Vector3.Slerp(
 				Vector3.zero, 
 				forward*currentBoostVelocity, 
 				Time.deltaTime

@@ -12,7 +12,7 @@ using InControl;
  * It can also be used for create new device profiles as it will
  * show the default Unity mappings for unknown devices.
  **/
-
+using Logger = InControl.Logger;
 public class TestInputManager : MonoBehaviour
 {
 	GUIStyle style = new GUIStyle();

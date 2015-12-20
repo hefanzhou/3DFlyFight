@@ -31,7 +31,7 @@ public class Missile : Bullet {
 			transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, homingSensitivity);
 		}
 		if (!alreadyDying) {
-			this.rigidbody.MovePosition(this.transform.position + speed*this.transform.forward*Time.deltaTime);
+			this.GetComponent<Rigidbody>().MovePosition(this.transform.position + speed*this.transform.forward*Time.deltaTime);
 		}
 	}
 	
@@ -44,7 +44,7 @@ public class Missile : Bullet {
 	public override void OnTriggerStay(Collider other) {
 		
 		GameObject hitGameObject = other.gameObject;
-		SphereCollider sphereCollider = this.collider as SphereCollider;
+		SphereCollider sphereCollider = this.GetComponent<Collider>() as SphereCollider;
 		
 		if (target == null && 
 		    hitGameObject != sourceSpaceship.gameObject && 

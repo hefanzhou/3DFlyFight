@@ -19,7 +19,7 @@ public class PickupSpawner : MonoBehaviour {
 
 
 	void Start() {
-		this.collider.isTrigger = true;
+		this.GetComponent<Collider>().isTrigger = true;
 		pickup = (GameObject.Instantiate(Resources.Load(pathToPickupResource)) as GameObject).GetComponent<Pickup>();
 		pickup.transform.parent = this.transform;
 		pickup.transform.localPosition = Vector3.zero;
@@ -50,7 +50,7 @@ public class PickupSpawner : MonoBehaviour {
 //		Debug.Log ("collider.gameObject.GetComponent<SpaceshipPickups>().CanPickup(pickup): " + collider.gameObject.GetComponent<SpaceshipPickups>().CanPickup(pickup));
 		if (collider.gameObject.CompareTag ("Spaceship") && collider.gameObject.GetComponent<SpaceshipPickups>().CanPickup(pickup)) {
 			Debug.Log (this.gameObject.name + " was picked up by: " + collider.gameObject.name);
-			audio.PlayOneShot(pickupSound);
+			GetComponent<AudioSource>().PlayOneShot(pickupSound);
 
 			GameObject pickupClone;
 			if (NetworkManager.IsSinglePlayer()) {

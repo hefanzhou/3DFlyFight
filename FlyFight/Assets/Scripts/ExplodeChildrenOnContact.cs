@@ -12,7 +12,7 @@ public class Collapse : MonoBehaviour {
 
 
 	void Start() {
-		this.collider.isTrigger = true;
+		this.GetComponent<Collider>().isTrigger = true;
 	}
 
 
@@ -28,7 +28,7 @@ public class Collapse : MonoBehaviour {
 			/* Go through children and add an explosion force to each. */
 			for (int i = 0; i < transform.childCount; ++i) {
 				Transform child = transform.GetChild(i);
-				child.rigidbody.AddExplosionForce(explosionForce, child.position + Random.insideUnitSphere*explosionRadius, explosionRadius);
+				child.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, child.position + Random.insideUnitSphere*explosionRadius, explosionRadius);
 			}
 
 		}

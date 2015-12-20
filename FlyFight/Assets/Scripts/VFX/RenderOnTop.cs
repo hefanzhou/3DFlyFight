@@ -4,7 +4,7 @@ using System.Collections;
 public class RenderOnTop : MonoBehaviour {
 	
 	void Start () {
-		this.renderer.material.renderQueue = 4000;
+		this.GetComponent<Renderer>().material.renderQueue = 4000;
 	}
 	
 }

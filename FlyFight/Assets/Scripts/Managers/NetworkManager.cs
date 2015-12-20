@@ -237,13 +237,13 @@ public class NetworkManager : MonoBehaviour {
 
 		Debug.Log("Sending out RPPC to update client information");
 
-		networkView.RPC("InitializeClientPlayerInfo", RPCMode.Others);
+		GetComponent<NetworkView>().RPC("InitializeClientPlayerInfo", RPCMode.Others);
 
 		for(int i=0; i<playerList.Count; i++) {
-			networkView.RPC("NetworkUpdateClientPlayerInfo", RPCMode.Others, playerList[i]);
+			GetComponent<NetworkView>().RPC("NetworkUpdateClientPlayerInfo", RPCMode.Others, playerList[i]);
 		}
 
-		networkView.RPC("FinalizeClientPlayerInfo", RPCMode.Others);
+		GetComponent<NetworkView>().RPC("FinalizeClientPlayerInfo", RPCMode.Others);
 
 		Debug.Log("PlayerList finished constructing. Given player ID: " + playerID);
 		Debug.Log("Received RPC to update client information");
