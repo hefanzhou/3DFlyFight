@@ -31,10 +31,10 @@ namespace InControl
 		[MenuItem("Edit/Project Settings/InControl/Check Input Manager")]
 		static void CheckInputManagerAsset()
 		{
-			if (!CheckAxisPresets())
-			{
-				Debug.LogError( "InControl has detected an invalid Input Manager setup. To fix, execute 'Edit > Project Settings > InControl > Setup Input Manager'." );
-			}
+			//if (!CheckAxisPresets())
+			//{
+			//	Debug.LogError( "InControl has detected an invalid Input Manager setup. To fix, execute 'Edit > Project Settings > InControl > Setup Input Manager'." );
+			//}
 		}
 
 
