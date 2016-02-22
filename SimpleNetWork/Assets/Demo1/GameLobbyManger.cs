@@ -23,7 +23,8 @@ namespace Demo1
 
         public void OnMatchCreate(CreateMatchResponse matchInfo)
         {
-            
+            base.OnMatchCreate(matchInfo);
+            Debug.Log("on match create:" + matchInfo);
         }
 
         

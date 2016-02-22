@@ -18,7 +18,7 @@ namespace Demo1
 
         }
 
-        void StartMatch()
+        public void StartMatch()
         {
             GameLobbyManger.Instance.StartMatchMaker();
             GameLobbyManger.Instance.matchMaker.CreateMatch(
