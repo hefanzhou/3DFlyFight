@@ -185,6 +185,7 @@ namespace UnityStandardAssets.Network
 
         public void OnMyName(string newName)
         {
+            Debug.Log("@@@@@@@OnMyName:" + playerName + "->" + newName);
             playerName = newName;
             nameInput.text = playerName;
         }

@@ -10,7 +10,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: 2013_10 - Sample Assets
+  productName: net
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_ShowUnitySplashScreen: 1
@@ -467,15 +467,11 @@ PlayerSettings:
   WebGL::useEmbeddedResources: 0
   stringPropertyNames:
   - Build_ServiceEnabled::Build_ServiceEnabled
-  - ErrorHub_ServiceEnabled::ErrorHub_ServiceEnabled
-  - Hub_ServiceEnabled::Hub_ServiceEnabled
   - UNet_ServiceEnabled::UNet_ServiceEnabled
   - WebGL::emscriptenArgs
   - WebGL::template
   - additionalIl2CppArgs::additionalIl2CppArgs
   Build_ServiceEnabled::Build_ServiceEnabled: True
-  ErrorHub_ServiceEnabled::ErrorHub_ServiceEnabled: False
-  Hub_ServiceEnabled::Hub_ServiceEnabled: False
   UNet_ServiceEnabled::UNet_ServiceEnabled: True
   WebGL::emscriptenArgs: 
   WebGL::template: APPLICATION:Default
