@@ -17,6 +17,7 @@ namespace Demo
                 return instance;
             }
         }
+
         void Awake()
         {
             instance = this;
@@ -38,6 +39,8 @@ namespace Demo
         {
             Debug.Log("@@@OnLobbyServerCreateLobbyPlayer");
             GameObject obj = Instantiate(lobbyPlayerPrefab.gameObject) as GameObject;
+            UpdateMinPlayers();
+            ++minPlayers;//current not create lobbyplayer but updatefunction relay it
             return obj;
         }
 
@@ -46,8 +49,8 @@ namespace Demo
             Debug.Log("@@@@OnClientConnect");
             base.OnClientConnect(conn);
             UIManager.instance.OpenLobbyPanel();
-
         }
+
 
         public override void OnStartHost()
         {
@@ -81,12 +84,13 @@ namespace Demo
 
         public override void OnLobbyServerPlayersReady()
         {
+            Debug.LogError("@@@@@OnLobbyServerPlayersReady");
             StartCoroutine(ServerCountdownCoroutine());
         }
 
         public IEnumerator ServerCountdownCoroutine()
         {
-            float remainingTime = 4;
+            float remainingTime = 10;
             int floorTime = Mathf.FloorToInt(remainingTime);
 
             while (remainingTime > 0)
@@ -95,9 +99,9 @@ namespace Demo
 
                 remainingTime -= Time.deltaTime;
                 int newFloorTime = Mathf.FloorToInt(remainingTime);
-
                 if (newFloorTime != floorTime)
                 {//to avoid flooding the network of message, we only send a notice to client when the number of plain seconds change.
+                   
                     floorTime = newFloorTime;
 
                     for (int i = 0; i < lobbySlots.Length; ++i)
@@ -119,6 +123,30 @@ namespace Demo
             }
 
             ServerChangeScene(playScene);
+        }
+
+        //本地调用 服务器不会因为多个客户端进入调用多次
+        public override void OnLobbyClientEnter()
+        {
+            Debug.LogError("@@@@OnLobbyClientEnter");
+            base.OnLobbyClientEnter();
+           
+        }
+
+        public override void OnLobbyClientExit()
+        {
+            base.OnLobbyClientExit();
+        }
+
+        public void UpdateMinPlayers()
+        {
+            int result = 0;
+            foreach (var temp in lobbySlots)
+            {
+                if (temp != null) ++result;
+            }
+            minPlayers = result;
+            Debug.Log(minPlayers + "@@" + result);
         }
     }
 }

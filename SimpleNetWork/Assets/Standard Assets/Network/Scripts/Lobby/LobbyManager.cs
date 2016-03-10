@@ -336,6 +336,7 @@ namespace UnityStandardAssets.Network
 
         public override void OnLobbyServerPlayersReady()
         {
+            Debug.LogError("@@@@@OnLobbyServerPlayersReady");
             StartCoroutine(ServerCountdownCoroutine());
         }
 

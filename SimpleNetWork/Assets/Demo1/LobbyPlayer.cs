@@ -35,7 +35,6 @@ namespace Demo
 
         public override void OnClientReady(bool readyState)
         {//玩家进入准备状态
-            SendReadyToBeginMessage();
         }
 
 

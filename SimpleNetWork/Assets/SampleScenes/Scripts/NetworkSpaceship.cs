@@ -275,7 +275,7 @@ public class NetworkSpaceship : NetworkBehaviour
     {
         if (!isClient) //avoid to create bullet twice (here & in Rpc call) on hosting client
             CreateBullets();
-
+        //强行在所有客户端生成，避免同步子弹到服务器
         RpcFire();
     }
 
