@@ -273,6 +273,7 @@ public class NetworkSpaceship : NetworkBehaviour
     [Command]
     public void CmdFire(Vector3 position, Vector3 forward, Vector3 startingVelocity)
     {
+        Debug.Log("@@@@CMdFire");
         if (!isClient) //avoid to create bullet twice (here & in Rpc call) on hosting client
             CreateBullets();
         //强行在所有客户端生成，避免同步子弹到服务器
@@ -289,6 +290,7 @@ public class NetworkSpaceship : NetworkBehaviour
     [ClientRpc]
     public void RpcFire()
     {
+        Debug.Log("@@@@RpcFire");
         CreateBullets();
     }
 
