@@ -1,4 +1,4 @@
-FlyFight/Library/
+﻿FlyFight/Library/
 FlyFight/temp/
 FlyFight/obj/
 
@@ -15,4 +15,4 @@ SimpleNetWork/obj/
 *.DS_store
 *.suo
 /FlyFight/CodeMapALL.dgml
-/doc/参考文献
+doc/参考文献/
