@@ -6839,8 +6839,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 1268134222}
   - 114: {fileID: 1268134221}
-  - 114: {fileID: 1268134220}
   - 114: {fileID: 1268134219}
+  - 114: {fileID: 1268134220}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -10045,6 +10045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb2aa86083ca1740b2eca42acfe566e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  circle: {fileID: 0}
 --- !u!4 &1859298613
 Transform:
   m_ObjectHideFlags: 0
