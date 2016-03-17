@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public enum KinectCursorState
 {
@@ -10,6 +11,9 @@ public enum KinectCursorState
 }
 
 public class KinectMouseManager : MonoBehaviour {
+
+    public Image circle;
+
 
 	private Texture2D[] cursorTextures = new Texture2D[(int)KinectCursorState.count];
 	private Vector2 mCursorPosition = Vector2.zero;
@@ -57,9 +61,13 @@ public class KinectMouseManager : MonoBehaviour {
 		mInstance = this;
 		InitCursor();
 	}
-	void Start() {
-		CursorPosition = new Vector2(Screen.width / 2, Screen.height / 2);	
-	}
+
+    void Start()
+    {
+        CursorPosition = new Vector2(Screen.width / 2, Screen.height / 2);	
+    }
+
+
 	void ResetCursorTexture()
 	{
 		Texture2D cursorTexture = cursorTextures[(int)mMouseState];
