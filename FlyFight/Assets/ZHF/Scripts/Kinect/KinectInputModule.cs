@@ -44,7 +44,7 @@ public class KinectInputModule : StandaloneInputModule
     {
         instance = this;
         cursorTf = transform.FindChild("cursor").gameObject.GetComponent<RectTransform>();
-        circleIm = transform.FindChild("cricle").gameObject.GetComponent<Image>();
+        circleIm = transform.FindChild("cursor/cricle").gameObject.GetComponent<Image>();
         circleIm.fillAmount = 0;
         OnKinectCursorEnterEvent += OnKinectCursorEnter;
         OnKinectCursorExitEvent += OnKinectCursorExit;
@@ -52,12 +52,14 @@ public class KinectInputModule : StandaloneInputModule
 
     void OnKinectCursorEnter(GameObject obj)
     {
+        Debug.Log("enter:" + obj);
         StopCoroutine(AffirmClick());
         StartCoroutine(AffirmClick());
     }
 
     void OnKinectCursorExit(GameObject obj)
     {
+        Debug.Log("exit:" + obj);
         StopCoroutine(AffirmClick());
     }
 
@@ -82,9 +84,8 @@ public class KinectInputModule : StandaloneInputModule
         }
     }
 
-    private void SetMouseButtonState(PointerEventData.FramePressState state, PointerEventData.InputButton button = PointerEventData.InputButton.Left)
+    private void SetMouseButtonState(MouseState m_MouseState, PointerEventData.FramePressState state, PointerEventData.InputButton button = PointerEventData.InputButton.Left)
     {
-        MouseState m_MouseState = base.GetMousePointerEventData(0);
         PointerInputModule.ButtonState buttonState = m_MouseState.GetButtonState(button);
         buttonState.eventData.buttonState = state;
     }
@@ -124,16 +125,15 @@ public class KinectInputModule : StandaloneInputModule
         m_MouseState.SetButtonState(PointerEventData.InputButton.Right, PointerEventData.FramePressState.NotChanged, data2);
         m_MouseState.SetButtonState(PointerEventData.InputButton.Middle, PointerEventData.FramePressState.NotChanged, data3);
         HandleEnterAndExit(data, data.pointerCurrentRaycast.gameObject);
-        ProcessClick(data);
-        Debug.Log(data.pointerCurrentRaycast.gameObject);
+        ProcessClick(m_MouseState);
         return m_MouseState;
     }
 
-    void ProcessClick(PointerEventData data)
+    void ProcessClick(MouseState m_MouseState)
     {
         if (isClick)
         {
-            SetMouseButtonState(PointerEventData.FramePressState.PressedAndReleased);
+            SetMouseButtonState(m_MouseState, PointerEventData.FramePressState.PressedAndReleased);
             isClick = false;
         }
 
@@ -142,12 +142,12 @@ public class KinectInputModule : StandaloneInputModule
 
     void HandleEnterAndExit(PointerEventData currentPointerData, GameObject newEnterTarget)
     {
+
         GameObject currentEnter = currentPointerData.pointerEnter;
         if ((newEnterTarget == null) || (currentEnter == null))
         {
             for (int i = 0; i < currentPointerData.hovered.Count; i++)
             {
-                Debug.Log("exit:" + currentPointerData.hovered[i].name);
                 OnKinectCursorExitEvent(currentPointerData.hovered[i]);
 
             }
@@ -156,30 +156,16 @@ public class KinectInputModule : StandaloneInputModule
                 return;
             }
         }
-
         if ((currentEnter != newEnterTarget) || (newEnterTarget == null))
         {
             GameObject obj2 = FindCommonRoot(currentEnter, newEnterTarget);
             if (currentEnter != null)
             {
-                for (Transform transform = currentEnter.transform; transform != null; transform = transform.parent)
-                {
-                    if ((obj2 != null) && (obj2.transform == transform))
-                    {
-                        break;
-                    }
-                    Debug.Log("exit:" + transform.name);
-                    OnKinectCursorExitEvent(transform.gameObject);
-
-                }
+                OnKinectCursorExitEvent(currentEnter);
             }
             if (newEnterTarget != null)
             {
-                for (Transform transform2 = newEnterTarget.transform; (transform2 != null) && (transform2.gameObject != obj2); transform2 = transform2.parent)
-                {
-                    Debug.Log("enter:" + transform2.name);
-                    OnKinectCursorEnterEvent(transform2.gameObject);
-                }
+                OnKinectCursorEnterEvent(newEnterTarget);
             }
         }
     }

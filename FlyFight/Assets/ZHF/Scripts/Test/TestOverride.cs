@@ -5,8 +5,8 @@ public class TestOverride : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        class2 value = new class3();
-        value.DoSomething();
+        class3 value = new class3();
+        value.DoSomething3();
 	}
 	
 
@@ -26,6 +26,12 @@ public class class2 : class1
     {
         print();
     }
+
+    protected override void print()
+    {
+        //Debug.Log("class2");
+        base.print();
+    }
 }
 
 public class class3 : class2
@@ -33,5 +39,11 @@ public class class3 : class2
     protected override void print()
     {
         Debug.Log("class3");
+    }
+
+    public void DoSomething3()
+    {
+        base.print();
+        print();
     }
 }
