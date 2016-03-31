@@ -16,3 +16,5 @@ SimpleNetWork/obj/
 *.suo
 /FlyFight/CodeMapALL.dgml
 doc/参考文献/
+/FlyFight/Assets/ZHF/Scripts/Test/TestOverride.cs
+/FlyFight/Assets/ZHF/Scripts/Test/TestOverride.cs.meta
