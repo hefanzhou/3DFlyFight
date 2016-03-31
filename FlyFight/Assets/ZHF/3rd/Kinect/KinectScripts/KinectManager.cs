@@ -1580,6 +1580,8 @@ public class KinectManager : MonoBehaviour
 	
 	void Awake()
 	{
+        if (!enabled) return;
+
 		try
 		{
 			bool bOnceRestarted = false;
