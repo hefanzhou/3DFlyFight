@@ -13,3 +13,5 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
   - enabled: 1
     path: Assets/Scenes/Arena.unity
+  - enabled: 1
+    path: Assets/ZHF/Scenes/PVP.unity
