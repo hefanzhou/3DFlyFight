@@ -32,7 +32,6 @@ public class KinectInputModule : StandaloneInputModule
     // Bool to specify whether to convert Unity screen coordinates to full screen mouse coordinates
     //public bool convertMouseToFullScreen = false;
 
-
     private long primaryUserID = 0;
 
     private bool isLeftHandPrimary = false;
@@ -289,6 +288,8 @@ public class KinectInputModule : StandaloneInputModule
         cursorTf = transform.FindChild("cursor").gameObject.GetComponent<RectTransform>();
         circleIm = transform.FindChild("cursor/cricle").gameObject.GetComponent<Image>();
         circleIm.fillAmount = 0;
+        if (!UseKinectCtrl) cursorTf.gameObject.SetActive(false);
+
         OnKinectCursorEnterEvent += OnKinectCursorEnter;
         OnKinectCursorExitEvent += OnKinectCursorExit;
         //初始化鼠标位置在屏幕中间
@@ -668,8 +669,10 @@ public class KinectInputModule : StandaloneInputModule
 
 
     protected override MouseState GetMousePointerEventData(int id)
-    {
+    {   
         MouseState m_MouseState = base.GetMousePointerEventData(id);
+        if (!UseKinectCtrl) return m_MouseState; 
+
         PointerEventData data;
         PointerEventData data2;
         PointerEventData data3;
