@@ -5,82 +5,58 @@ using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
 using UnityEngine.Events;
 
+public enum PanelType
+{
+    TITEL = 0,
+    MENU,
+    SELECT,
+    LOBBY,
+    COUNT
+};
+
 public class MenuUIManager : MonoBehaviour
 {
-
-    public RectTransform titlePanel;
-    public RectTransform menuPanle;
-    public RectTransform selectPanel;
-    public RectTransform lobbyPanel;
-
-    public GameObject ServerPrefab = null;
-
-    //menu direct link
-    private Button joinBtn;
-    private Button hostBtn;
-    private Button quitBtn;
-    //select panel
-
-
-    //lobbyPanel
-
-    //match
-    private Button listButton;
-    private Button createButton;
-
-  
+    [SerializeField]
+    private RectTransform titlePanel;
+    [SerializeField]
+    private RectTransform menuPanle;
+    [SerializeField]
+    private RectTransform selectPanel;
+    [SerializeField]
+    private RectTransform lobbyPanel;
     public RectTransform cooldownPanel;
-    private RectTransform lobbyPlayerRoot = null;
-    private RectTransform ServerListRoot = null;
-
 
     [HideInInspector]
     public Text cooldownText = null;
-    [HideInInspector]
-    public static MenuUIManager instance = null;
+    public GameObject ServerPrefab = null;
+
+    private RectTransform currentPanel;
+
+
+
+    private static MenuUIManager instance = null;
+
+    public static MenuUIManager Instance
+    {
+        get { return MenuUIManager.instance; }
+    }
     // Use this for initialization
     void Start()
     {
-        InintUI();
-        RegistUIEvent();
-        
+        Inint();
     }
 
-    void InintUI()
+    void Inint()
     {
         instance = this;
-        joinBtn = menuPanle.FindChild("Join").GetComponent<Button>();
-        hostBtn = menuPanle.FindChild("Host").GetComponent<Button>();
-        quitBtn = menuPanle.FindChild("Quit").GetComponent<Button>();
+        currentPanel = menuPanle;
 
-        lobbyPlayerRoot = lobbyPanel.FindChild("PlayerScrollView/Viewport/List") as RectTransform;
-
+        CloseAllPanel();
+        ChangeToPanel(PanelType.MENU);
         //cooldownText = cooldownPanel.gameObject.GetComponentInChildren<Text>();
     }
 
-    void RegistUIEvent()
-    {
-        //createButton.onClick.AddListener(StartMatch);
-        //listButton.onClick.AddListener(ListServer);
-        hostBtn.onClick.AddListener(OnClickHost);
-        joinBtn.onClick.AddListener(OnClickJoin);
-        quitBtn.onClick.AddListener(OnClickQuit);
 
-    }
-
-    void OnClickQuit()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();         
-#endif
-    }
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void StartMatch()
     {
@@ -93,27 +69,22 @@ public class MenuUIManager : MonoBehaviour
         {
             GameObject o = Instantiate(ServerPrefab) as GameObject;
             o.GetComponent<LobbyServerEntry>().Populate(response.matches[i]);
-            o.transform.SetParent(ServerListRoot, false);
+            //o.transform.SetParent(ServerListRoot, false);
         }
     }
     public void ListServer()
     {
-        OpenServerListPanel();
+
         GameLobbyManger.Instance.RequsetPage(0, OnRequsetMatchList);
 
     }
 
-    public void OpenLobbyPanel()
-    {
-        lobbyPlayerRoot.gameObject.SetActive(true);
-        ServerListRoot.gameObject.SetActive(false);
-        menuPanle.gameObject.SetActive(false);
-    }
 
-    public void OpenServerListPanel()
+    void CloseAllPanel()
     {
-        lobbyPlayerRoot.gameObject.SetActive(false);
-        ServerListRoot.gameObject.SetActive(true);
+        //titlePanel.gameObject.SetActive(false);
+        selectPanel.gameObject.SetActive(false);
+        lobbyPanel.gameObject.SetActive(false);
         menuPanle.gameObject.SetActive(false);
     }
 
@@ -123,14 +94,34 @@ public class MenuUIManager : MonoBehaviour
         cooldownPanel.gameObject.SetActive(countdown > 0);
     }
 
-    public void OnClickHost()
+    public void ChangeToPanel(PanelType panelType)
     {
-        GameLobbyManger.Instance.StartHost();
+        RectTransform panel = GetPanelByType(panelType);
+        currentPanel.gameObject.SetActive(false);
+        panel.gameObject.SetActive(true);
+        currentPanel = panel;
     }
 
-    public void OnClickJoin()
+    private RectTransform GetPanelByType(PanelType type)
     {
-        GameLobbyManger.Instance.DirectJoin();
+        switch (type)
+        {
+            case PanelType.TITEL:
+                return titlePanel;
+                break;
+            case PanelType.MENU:
+                return menuPanle;
+                break;
+            case PanelType.SELECT:
+                return selectPanel;
+                break;
+            case PanelType.LOBBY:
+                return lobbyPanel;
+                break;
+            default:
+                return currentPanel;
+                break;
+        }
     }
 
 }

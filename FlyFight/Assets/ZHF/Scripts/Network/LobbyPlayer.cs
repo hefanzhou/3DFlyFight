@@ -16,7 +16,7 @@ using UnityEngine.UI;
 
             Debug.Log("@@@@@OnClientEnterLobby" + isLocalPlayer);
             base.OnClientEnterLobby();
-            //transform.parent = UIManager.instance.lobbyPlayerRoot;
+            LobbyPanel.Instance.AddLobbyPlayerTF(transform);
             if (!isLocalPlayer)
             {
                 SetupOtherPlayer();
@@ -26,7 +26,7 @@ using UnityEngine.UI;
         }
 
         public override void OnStartAuthority()
-        {//获得了管理权，这里可判断为自己
+        {//获得了管理权，这里可判断为 改物体为该客户端中的主玩家
             Debug.Log("@@@OnStartAuthority");
             SetupLocalPlayer();
         }
@@ -43,18 +43,18 @@ using UnityEngine.UI;
 
         void SetupLocalPlayer()
         {
-  
+            Debug.LogWarning("start Local" + playerName);
+            GameLobbyManger.Instance.mainPlayer.lobbyPlayer = this;
             if (playerName == "")
-                CmdNameChanged(NameFactory.RandomGetName());
+                CmdNameChanged(GameLobbyManger.Instance.mainPlayer.name);
         }
 
         void SetupOtherPlayer()
         {
-            
+            Debug.LogWarning("start other" + playerName);
         }
         public void OnMyName(string newName)
         {
-            Debug.Log("@@@@@OnMyName:" + playerName +"->"+newName );
             playerName = newName;
             nameText.text = playerName;
         }
@@ -76,7 +76,6 @@ using UnityEngine.UI;
         public void RpcUpdateCountdown(int countdown)
         {
             Debug.Log("@@@@RpcUpdateCountdown" + countdown);
-            //UIManager.instance.UpdateCooldownPanel(countdown);
         }
 
 

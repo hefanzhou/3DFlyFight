@@ -26,14 +26,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 448304}
-  - 114: {fileID: 11400786}
-  - 114: {fileID: 11404988}
-  - 114: {fileID: 11436670}
-  - 114: {fileID: 11498210}
-  - 114: {fileID: 11425368}
   - 54: {fileID: 5452932}
   - 135: {fileID: 13548414}
-  - 148: {fileID: 14875436}
+  - 114: {fileID: 11427174}
   m_Layer: 0
   m_Name: ship3
   m_TagString: Spaceship
@@ -742,68 +737,6 @@ TrailRenderer:
       rgba: 16777215
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
---- !u!114 &11400786
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 106300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd27a23043a94400ba142fb0a3a7f68b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameplayManager: {fileID: 0}
-  spaceshipModelPitchYaw: {fileID: 0}
-  spaceshipModelRoll: {fileID: 0}
-  spaceshipMesh: {fileID: 111768}
-  spaceshipShell: {fileID: 143906}
-  spaceshipCamera: {fileID: 0}
-  crosshairs: {fileID: 0}
-  gun: {fileID: 0}
-  pickups: {fileID: 11404988}
-  controls: {fileID: 11436670}
-  name: Buzz
-  effects:
-  - {fileID: 155434}
-  - {fileID: 101818}
-  - {fileID: 129742}
-  - {fileID: 161742}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  xTiltLeftStick: 0
-  yTiltLeftStick: 0
-  xTiltRightStick: 0
-  yTiltRightStick: 0
-  shooting: 0
-  boosting: 0
-  braking: 0
-  drifting: 0
-  idle: 0
-  swappingWeapon: 0
-  equippedItem: 0
-  isVisible: 1
-  controlsEnabled: 1
-  selectPressedLastFrame: 0
-  forward: {x: 0, y: 0, z: 0}
-  right: {x: 0, y: 0, z: 0}
-  currentBoostVelocity: 0
-  maxBoostVelocity: 1150
-  ownerPlayerID: 0
---- !u!114 &11404988
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 106300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0c1e3b689fc7694fb3a8c2e3d4b698c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spaceship: {fileID: 11400786}
-  currentPickup: {fileID: 0}
 --- !u!114 &11411376
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -818,7 +751,7 @@ MonoBehaviour:
   materialToScroll: {fileID: 2100000, guid: 9d9f6794fff34aa4d8ea1dc1932bafce, type: 2}
   xRate: 0.33
   yRate: 0.5
---- !u!114 &11425368
+--- !u!114 &11427174
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -826,76 +759,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 106300}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97901ac030efb4efab451079024c1602, type: 3}
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spaceship: {fileID: 11400786}
-  timeStartMatch: 0
-  timeFinishMatch: Infinity
-  timeElapsed: 0
-  matchOver: 0
-  totalKills: 0
-  spawnTimeRemaining: 0
-  lastKilledBy: {fileID: 0}
---- !u!114 &11436670
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 106300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ea0cd42aa1733e4b9d51b465a6b95e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spaceship: {fileID: 11400786}
-  boostAcceleration: 10
-  deaccelerationIdle: 0.92
-  deaccelerationBraking: 4
-  crosshairs: {fileID: 0}
-  normalTurnSpeed: 100
-  driftTurnSpeed: 200
-  driftTiltRate: 4
-  normalTiltRate: 2.5
-  tiltAlignRate: 2
-  driftTiltMax: 70
-  normalTiltMax: 35
-  distanceForwardToCheckForCollision: 1000
---- !u!114 &11498210
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 106300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a538c62feaa9da645a59d780ae7bb4c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spaceship: {fileID: 11400786}
-  currentHealth: 0
-  maxHealth: 65
-  state: 0
-  respawnInvulnerabilityTime: 6
-  healthRatioToBeInjured: 0.6
-  healthRatioToBeCritical: 0.3
-  invulnerable: 0
-  matchManager: {fileID: 0}
-  lastHurtByPlayerID: -1
-  electricField: {fileID: 2100000, guid: 9d9f6794fff34aa4d8ea1dc1932bafce, type: 2}
-  electricFieldOpacity: 0.4
-  timeToShowElectricField: 2
-  electricFieldHideSpeed: 0.5
-  damageOverlayOpacity: 0.375
-  timeToShowDamageOverlay: 2
-  damageOverlayHideSpeed: 0.5
-  enemyIndicator: {fileID: 0}
-  enemyIndicatorOpacity: 1
-  timeToShowEnemyIndicator: 2
-  enemyIndicatorHideSpeed: 0.5
-  deathExplosionResourcePath: Explosions/ShipDeathExplosion_01
-  currentDamager: {fileID: 0}
-  lastDamager: {fileID: 0}
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 14
+    i1: 148
+    i2: 53
+    i3: 203
+    i4: 107
+    i5: 23
+    i6: 90
+    i7: 116
+    i8: 123
+    i9: 73
+    i10: 30
+    i11: 240
+    i12: 244
+    i13: 69
+    i14: 220
+    i15: 122
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!135 &13548414
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -908,18 +795,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 125
   m_Center: {x: 0, y: 0, z: 15}
---- !u!148 &14875436
-NetworkView:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 106300}
-  m_Enabled: 1
-  m_StateSynchronization: 2
-  m_Observed: {fileID: 11400786}
-  m_ViewID:
-    m_ID: 0
-    m_Type: 0
 --- !u!198 &19802426
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -58,14 +58,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 478820}
-  - 114: {fileID: 11483136}
-  - 114: {fileID: 11424870}
-  - 114: {fileID: 11442610}
-  - 114: {fileID: 11411320}
-  - 114: {fileID: 11404292}
   - 54: {fileID: 5441138}
   - 135: {fileID: 13589742}
-  - 148: {fileID: 14843992}
+  - 114: {fileID: 11425490}
   m_Layer: 0
   m_Name: ship4
   m_TagString: Spaceship
@@ -966,7 +961,7 @@ TrailRenderer:
       rgba: 255
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
---- !u!114 &11404292
+--- !u!114 &11425490
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -974,65 +969,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 120714}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97901ac030efb4efab451079024c1602, type: 3}
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spaceship: {fileID: 11483136}
-  timeStartMatch: 0
-  timeFinishMatch: Infinity
-  timeElapsed: 0
-  matchOver: 0
-  totalKills: 0
-  spawnTimeRemaining: 0
-  lastKilledBy: {fileID: 0}
---- !u!114 &11411320
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 120714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a538c62feaa9da645a59d780ae7bb4c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spaceship: {fileID: 11483136}
-  currentHealth: 0
-  maxHealth: 125
-  state: 0
-  respawnInvulnerabilityTime: 6
-  healthRatioToBeInjured: 0.6
-  healthRatioToBeCritical: 0.3
-  invulnerable: 0
-  matchManager: {fileID: 0}
-  lastHurtByPlayerID: -1
-  electricField: {fileID: 2100000, guid: 271072384f93c3641a8219e49377aa55, type: 2}
-  electricFieldOpacity: 0.4
-  timeToShowElectricField: 2
-  electricFieldHideSpeed: 0.5
-  damageOverlayOpacity: 0.375
-  timeToShowDamageOverlay: 2
-  damageOverlayHideSpeed: 0.5
-  enemyIndicator: {fileID: 0}
-  enemyIndicatorOpacity: 1
-  timeToShowEnemyIndicator: 2
-  enemyIndicatorHideSpeed: 0.5
-  deathExplosionResourcePath: Explosions/ShipDeathExplosion_01
-  currentDamager: {fileID: 0}
-  lastDamager: {fileID: 0}
---- !u!114 &11424870
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 120714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0c1e3b689fc7694fb3a8c2e3d4b698c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spaceship: {fileID: 11483136}
-  currentPickup: {fileID: 0}
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 172
+    i1: 176
+    i2: 99
+    i3: 188
+    i4: 18
+    i5: 55
+    i6: 108
+    i7: 244
+    i8: 171
+    i9: 112
+    i10: 143
+    i11: 166
+    i12: 27
+    i13: 162
+    i14: 123
+    i15: 132
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &11433556
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1047,80 +1007,6 @@ MonoBehaviour:
   materialToScroll: {fileID: 2100000, guid: 271072384f93c3641a8219e49377aa55, type: 2}
   xRate: 0.33
   yRate: 0.5
---- !u!114 &11442610
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 120714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ea0cd42aa1733e4b9d51b465a6b95e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spaceship: {fileID: 11483136}
-  boostAcceleration: 10
-  deaccelerationIdle: 0.92
-  deaccelerationBraking: 4
-  crosshairs: {fileID: 0}
-  normalTurnSpeed: 100
-  driftTurnSpeed: 200
-  driftTiltRate: 4
-  normalTiltRate: 2.5
-  tiltAlignRate: 2
-  driftTiltMax: 70
-  normalTiltMax: 35
-  distanceForwardToCheckForCollision: 1000
---- !u!114 &11483136
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 120714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd27a23043a94400ba142fb0a3a7f68b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameplayManager: {fileID: 0}
-  spaceshipModelPitchYaw: {fileID: 0}
-  spaceshipModelRoll: {fileID: 0}
-  spaceshipMesh: {fileID: 161968}
-  spaceshipShell: {fileID: 156934}
-  spaceshipCamera: {fileID: 0}
-  crosshairs: {fileID: 0}
-  gun: {fileID: 0}
-  pickups: {fileID: 11424870}
-  controls: {fileID: 11442610}
-  name: Don Quixote
-  effects:
-  - {fileID: 119942}
-  - {fileID: 121352}
-  - {fileID: 143374}
-  - {fileID: 153140}
-  - {fileID: 127924}
-  - {fileID: 116770}
-  - {fileID: 0}
-  - {fileID: 0}
-  xTiltLeftStick: 0
-  yTiltLeftStick: 0
-  xTiltRightStick: 0
-  yTiltRightStick: 0
-  shooting: 0
-  boosting: 0
-  braking: 0
-  drifting: 0
-  idle: 0
-  swappingWeapon: 0
-  equippedItem: 0
-  isVisible: 1
-  controlsEnabled: 1
-  selectPressedLastFrame: 0
-  forward: {x: 0, y: 0, z: 0}
-  right: {x: 0, y: 0, z: 0}
-  currentBoostVelocity: 0
-  maxBoostVelocity: 950
-  ownerPlayerID: 0
 --- !u!135 &13589742
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -1133,18 +1019,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 125
   m_Center: {x: 0, y: 0, z: 15}
---- !u!148 &14843992
-NetworkView:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 120714}
-  m_Enabled: 1
-  m_StateSynchronization: 2
-  m_Observed: {fileID: 11483136}
-  m_ViewID:
-    m_ID: 0
-    m_Type: 0
 --- !u!198 &19800052
 ParticleSystem:
   m_ObjectHideFlags: 1

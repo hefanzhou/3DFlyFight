@@ -6,6 +6,9 @@ using UnityEngine.Networking.Types;
 
 public class GameLobbyManger : NetworkLobbyManager
 {
+
+    [HideInInspector]
+    public Player mainPlayer;
     private static GameLobbyManger instance = null;
     public static GameLobbyManger Instance
     {
@@ -15,9 +18,19 @@ public class GameLobbyManger : NetworkLobbyManager
         }
     }
 
+    private bool isServer = false;
+
+    public bool IsServer
+    {
+        get { return isServer; }
+    }
+
+    public GameObject playerGameobject;
+
     void Awake()
     {
         instance = this;
+        mainPlayer = new Player();
     }
 
     public void OnMatchCreate(CreateMatchResponse matchInfo)
@@ -45,6 +58,7 @@ public class GameLobbyManger : NetworkLobbyManager
     {
         Debug.Log("@@@@OnClientConnect");
         base.OnClientConnect(conn);
+        MenuUIManager.Instance.ChangeToPanel(PanelType.LOBBY);
     }
 
 
@@ -52,6 +66,7 @@ public class GameLobbyManger : NetworkLobbyManager
     {
         Debug.LogError("@@@@OnStartHost");
         base.OnStartHost();
+        MenuUIManager.Instance.ChangeToPanel(PanelType.LOBBY);
     }
 
     public void RequsetPage(int page, NetworkMatch.ResponseDelegate<ListMatchResponse> callback, string roomName = "")
@@ -73,13 +88,33 @@ public class GameLobbyManger : NetworkLobbyManager
 
     public void DirectJoin(string ipAddress = "127.0.0.1")
     {
+        isServer = false;
         networkAddress = ipAddress;
         StartClient();
     }
 
+
+    public override NetworkClient StartHost()
+    {
+        isServer = true;
+        return base.StartHost();
+    }
+
+    public void ExitLobby()
+    {
+        if (IsServer)
+        {
+            StopHost();
+        }
+        else
+        {
+            StopClient();
+        }
+
+    }
     public override void OnLobbyServerPlayersReady()
     {
-        Debug.LogError("@@@@@OnLobbyServerPlayersReady");
+        ServerChangeScene(playScene);
     }
 
 
@@ -94,6 +129,8 @@ public class GameLobbyManger : NetworkLobbyManager
     public override void OnLobbyClientExit()
     {
         base.OnLobbyClientExit();
+        if(mainPlayer.lobbyPlayer != null)
+        MenuUIManager.Instance.ChangeToPanel(PanelType.MENU);
     }
 
     public void UpdateMinPlayers()
@@ -104,8 +141,29 @@ public class GameLobbyManger : NetworkLobbyManager
             if (temp != null) ++result;
         }
         minPlayers = result;
-        Debug.Log(minPlayers + "@@" + result);
     }
+
+
+    public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, short playerControllerId)
+    {
+        Debug.LogError("OnLobbyServerCreateGamePlayer");
+        return base.OnLobbyServerCreateGamePlayer(conn, playerControllerId);
+    }
+
+    public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+    {
+        Debug.LogError("OnServerAddPlayer");
+        base.OnServerAddPlayer(conn, playerControllerId);
+        //NetworkServer.ReplacePlayerForConnection(conn, playerGameobject, playerControllerId);
+    }
+
 }
 
-
+public enum ShipType
+{
+    SHIP1 = 0,
+    SHIP2,
+    SHIP3,
+    SHIP4,
+    COUNT
+};
