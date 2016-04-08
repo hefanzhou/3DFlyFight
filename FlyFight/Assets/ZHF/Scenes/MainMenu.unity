@@ -2061,7 +2061,11 @@ MonoBehaviour:
   m_LobbyScene: MainMenu
   m_PlayScene: PVP
   lobbySlots: []
-  playerGameobject: {fileID: 155710, guid: 52b8e6d843836f64291d1bcaead0174d, type: 2}
+  playerPerfabs:
+  - {fileID: 155710, guid: 52b8e6d843836f64291d1bcaead0174d, type: 2}
+  - {fileID: 148992, guid: 1c2f0651aa9d45040b0b62f9e2d328b0, type: 2}
+  - {fileID: 106300, guid: 0e9435cb6b175a747b491ef0f445dc7a, type: 2}
+  - {fileID: 120714, guid: acb063bc12376cf4ab708fa61ba27b84, type: 2}
 --- !u!1 &371895834
 GameObject:
   m_ObjectHideFlags: 0
@@ -11385,7 +11389,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 1986231858}
   - 108: {fileID: 1986231857}
-  - 114: {fileID: 1986231859}
   m_Layer: 0
   m_Name: Directional light
   m_TagString: Untagged
@@ -11438,17 +11441,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &1986231859
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1986231856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 493de37813ea2b348944d1802c2cc6e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1995910849
 GameObject:
   m_ObjectHideFlags: 0

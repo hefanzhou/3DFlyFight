@@ -10,6 +10,8 @@ public class GameLobbyManger : NetworkLobbyManager
 
     [HideInInspector]
     public Player mainPlayer;
+
+    public GameObject[] playerPerfabs;
     private static GameLobbyManger instance = null;
     public static GameLobbyManger Instance
     {
@@ -26,12 +28,19 @@ public class GameLobbyManger : NetworkLobbyManager
         get { return isServer; }
     }
 
-    public GameObject playerGameobject;
 
     void Awake()
     {
         instance = this;
         mainPlayer = new Player();
+    }
+
+    void Initialize()
+    {
+        foreach(var go in playerPerfabs)
+        {
+            ClientScene.RegisterPrefab(go);
+        }
     }
 
     public void OnMatchCreate(CreateMatchResponse matchInfo)
@@ -116,7 +125,6 @@ public class GameLobbyManger : NetworkLobbyManager
     public override void OnLobbyServerPlayersReady()
     {
         ServerChangeScene(playScene);
-        MenuUIManager.Instance.HideMenu();
     }
 
 
@@ -148,10 +156,20 @@ public class GameLobbyManger : NetworkLobbyManager
 
     public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, short playerControllerId)
     {
-        Debug.LogError("OnLobbyServerCreateGamePlayer");
-        return base.OnLobbyServerCreateGamePlayer(conn, playerControllerId);
+
+        int index = (int)mainPlayer.type;
+        Transform position = base.GetStartPosition();
+        GameObject go = Instantiate(playerPerfabs[index], position.position, position.rotation) as GameObject;
+        Debug.Log("OnLobbyServerCreateGamePlayer" + SceneManager.GetActiveScene().name);
+        return go;
     }
 
+    void OnGUI()
+    {
+        if (GUILayout.Button("GetStartPosition"))
+        {
+        }
+    }
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
     {
         Debug.LogError("OnServerAddPlayer");
@@ -163,10 +181,37 @@ public class GameLobbyManger : NetworkLobbyManager
     {
         if (SceneManager.GetActiveScene().name == playScene)
         {
-            Destroy(MenuUIManager.Instance.gameObject);
+            Debug.LogError(SceneManager.GetActiveScene().name);
+            StartCoroutine(DestoryMenuUI());
         }
     }
 
+    IEnumerator DestoryMenuUI()
+    {
+        MenuUIManager.Instance.HideMenu();
+        yield return new WaitForSeconds(0.3f);
+        Destroy(MenuUIManager.Instance.gameObject);
+    }
+
+    public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
+    {
+        Debug.LogError("OnLobbyServerSceneLoadedForPlayer" + SceneManager.GetActiveScene().name);
+        return base.OnLobbyServerSceneLoadedForPlayer(lobbyPlayer, gamePlayer);
+    }
+
+    public void ReturnToStartScene()
+    {
+        if (NetworkServer.active)
+        {
+            ServerReturnToLobby();
+            StopHost();
+        }
+        else
+        {
+            client.Disconnect();
+            SceneManager.LoadScene(lobbyScene);
+        }
+    }
 }
 
 public enum ShipType

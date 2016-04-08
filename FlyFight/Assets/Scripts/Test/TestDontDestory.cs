@@ -5,7 +5,7 @@ public class TestDontDestory : MonoBehaviour {
 
 	void Awake()
 	{
-		DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
 	}
 	// Use this for initialization
 	void Start () {
