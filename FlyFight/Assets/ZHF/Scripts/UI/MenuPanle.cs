@@ -8,6 +8,7 @@ public class MenuPanle : MonoBehaviour {
     private Button joinBtn;
     private Button quitBtn;
 
+
     private static MenuPanle instance = null;
 
     public static MenuPanle Instance
@@ -28,6 +29,7 @@ public class MenuPanle : MonoBehaviour {
         hostBtn = transform.Find("Host").GetComponent<Button>();
         joinBtn = transform.Find("Join").GetComponent<Button>();
         quitBtn = transform.Find("Quit").GetComponent<Button>();
+
     }
 
     void RegistUIEvent()
@@ -55,4 +57,6 @@ public class MenuPanle : MonoBehaviour {
         Application.Quit();
 #endif
     }
+
+
 }

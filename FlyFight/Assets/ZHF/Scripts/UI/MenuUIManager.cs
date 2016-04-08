@@ -31,7 +31,7 @@ public class MenuUIManager : MonoBehaviour
     public GameObject ServerPrefab = null;
 
     private RectTransform currentPanel;
-
+    private Canvas mainCanvas;
 
 
     private static MenuUIManager instance = null;
@@ -50,6 +50,7 @@ public class MenuUIManager : MonoBehaviour
     {
         instance = this;
         currentPanel = menuPanle;
+        mainCanvas = GetComponent<Canvas>();
 
         CloseAllPanel();
         ChangeToPanel(PanelType.MENU);
@@ -122,6 +123,11 @@ public class MenuUIManager : MonoBehaviour
                 return currentPanel;
                 break;
         }
+    }
+
+    public void HideMenu()
+    {
+        mainCanvas.enabled = false;
     }
 
 }

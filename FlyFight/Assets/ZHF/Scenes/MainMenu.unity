@@ -4988,6 +4988,7 @@ GameObject:
   - 114: {fileID: 865708591}
   - 114: {fileID: 865708590}
   - 114: {fileID: 865708594}
+  - 114: {fileID: 865708595}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -5093,6 +5094,17 @@ MonoBehaviour:
   cooldownPanel: {fileID: 0}
   cooldownText: {fileID: 0}
   ServerPrefab: {fileID: 0}
+--- !u!114 &865708595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 865708589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8068c885b9a780e44ae285508f862073, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &882693705
 GameObject:
   m_ObjectHideFlags: 0
@@ -11432,9 +11444,9 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1986231856}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b97ef3971d1bb564985f7543b4dcb71f, type: 3}
+  m_Script: {fileID: 11500000, guid: 493de37813ea2b348944d1802c2cc6e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1995910849

@@ -2,14 +2,16 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 3
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Magneto_ElectricField
   m_Shader: {fileID: 200, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: []
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
   m_CustomRenderQueue: -1
+  stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -19,7 +21,7 @@ Material:
         second:
           m_Texture: {fileID: 2800000, guid: fda2e27680cab4051b726b41a5fec8cf, type: 3}
           m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 18.6121712, y: 28.2002583}
+          m_Offset: {x: 343.1655, y: 519.9477}
     m_Floats:
       data:
         first:
@@ -29,8 +31,8 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .588235319, g: .588235319, b: .588235319, a: 1}
+        second: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
       data:
         first:
           name: _TintColor
-        second: {r: .137498349, g: .713725507, b: .0901960507, a: 0}
+        second: {r: 0.13749835, g: 0.7137255, b: 0.09019605, a: 0}

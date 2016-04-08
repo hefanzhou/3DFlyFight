@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
 using UnityEngine.Networking.Types;
+using UnityEngine.SceneManagement;
 
 public class GameLobbyManger : NetworkLobbyManager
 {
@@ -102,7 +103,7 @@ public class GameLobbyManger : NetworkLobbyManager
 
     public void ExitLobby()
     {
-        if (IsServer)
+        if (NetworkServer.active)
         {
             StopHost();
         }
@@ -115,6 +116,7 @@ public class GameLobbyManger : NetworkLobbyManager
     public override void OnLobbyServerPlayersReady()
     {
         ServerChangeScene(playScene);
+        MenuUIManager.Instance.HideMenu();
     }
 
 
@@ -155,6 +157,14 @@ public class GameLobbyManger : NetworkLobbyManager
         Debug.LogError("OnServerAddPlayer");
         base.OnServerAddPlayer(conn, playerControllerId);
         //NetworkServer.ReplacePlayerForConnection(conn, playerGameobject, playerControllerId);
+    }
+
+    public override void OnLobbyClientSceneChanged(NetworkConnection conn)
+    {
+        if (SceneManager.GetActiveScene().name == playScene)
+        {
+            Destroy(MenuUIManager.Instance.gameObject);
+        }
     }
 
 }

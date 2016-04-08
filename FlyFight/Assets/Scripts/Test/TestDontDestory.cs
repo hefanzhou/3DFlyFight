@@ -6,7 +6,6 @@ public class TestDontDestory : MonoBehaviour {
 	void Awake()
 	{
 		DontDestroyOnLoad(gameObject);
-		DontDestroyOnLoad(transform.parent.gameObject);
 	}
 	// Use this for initialization
 	void Start () {
