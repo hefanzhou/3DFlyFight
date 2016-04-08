@@ -312,5 +312,13 @@ namespace UnityStandardAssets.Network
             LobbyPlayerList._instance.RemovePlayer(this);
             if (LobbyManager.s_Singleton != null) LobbyManager.s_Singleton.OnPlayersNumberModified(-1);
         }
+
+        void OnGUI()
+        {
+            if (GUILayout.Button("READY......"))
+            {
+                SendReadyToBeginMessage();
+            }
+        }
     }
 }
