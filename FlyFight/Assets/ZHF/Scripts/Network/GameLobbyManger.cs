@@ -163,13 +163,6 @@ public class GameLobbyManger : NetworkLobbyManager
         Debug.Log("OnLobbyServerCreateGamePlayer" + SceneManager.GetActiveScene().name);
         return go;
     }
-
-    void OnGUI()
-    {
-        if (GUILayout.Button("GetStartPosition"))
-        {
-        }
-    }
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
     {
         Debug.LogError("OnServerAddPlayer");
@@ -196,6 +189,7 @@ public class GameLobbyManger : NetworkLobbyManager
     public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
     {
         Debug.LogError("OnLobbyServerSceneLoadedForPlayer" + SceneManager.GetActiveScene().name);
+        PVPGameManager.Instance.mineGamePlayer = gamePlayer.GetComponent<GamePlayer>();
         return base.OnLobbyServerSceneLoadedForPlayer(lobbyPlayer, gamePlayer);
     }
 
@@ -208,8 +202,7 @@ public class GameLobbyManger : NetworkLobbyManager
         }
         else
         {
-            client.Disconnect();
-            SceneManager.LoadScene(lobbyScene);
+            SendReturnToLobby();
         }
     }
 }

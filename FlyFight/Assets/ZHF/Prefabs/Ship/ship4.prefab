@@ -61,6 +61,7 @@ GameObject:
   - 54: {fileID: 5441138}
   - 135: {fileID: 13589742}
   - 114: {fileID: 11425490}
+  - 114: {fileID: 11434788}
   m_Layer: 0
   m_Name: ship4
   m_TagString: Spaceship
@@ -1007,6 +1008,17 @@ MonoBehaviour:
   materialToScroll: {fileID: 2100000, guid: 271072384f93c3641a8219e49377aa55, type: 2}
   xRate: 0.33
   yRate: 0.5
+--- !u!114 &11434788
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 120714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f32d0f17346abe94e8ed0223ebee0242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &13589742
 SphereCollider:
   m_ObjectHideFlags: 1

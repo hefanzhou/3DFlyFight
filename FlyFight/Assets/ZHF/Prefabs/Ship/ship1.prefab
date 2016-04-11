@@ -48,7 +48,7 @@ GameObject:
   - 54: {fileID: 5480648}
   - 136: {fileID: 13688810}
   - 114: {fileID: 11467732}
-  - 114: {fileID: 11449522}
+  - 114: {fileID: 11439374}
   m_Layer: 0
   m_Name: ship1
   m_TagString: Untagged
@@ -209,7 +209,7 @@ TrailRenderer:
       rgba: 255
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
---- !u!114 &11449522
+--- !u!114 &11439374
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -217,7 +217,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 155710}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b97ef3971d1bb564985f7543b4dcb71f, type: 3}
+  m_Script: {fileID: 11500000, guid: f32d0f17346abe94e8ed0223ebee0242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11467732
