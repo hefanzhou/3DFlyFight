@@ -172,19 +172,32 @@ public class GameLobbyManger : NetworkLobbyManager
 
     public override void OnLobbyClientSceneChanged(NetworkConnection conn)
     {
-        if (SceneManager.GetActiveScene().name == playScene)
+        Debug.LogError("OnLobbyClientSceneChanged" + networkSceneName);
+        if (networkSceneName == playScene)
         {
-            Debug.LogError(SceneManager.GetActiveScene().name);
-            StartCoroutine(DestoryMenuUI());
+            MenuUIManager.Instance.SetVisible(false);
+        }
+        else if (networkSceneName == lobbyScene)
+        {
+            MenuUIManager.Instance.SetVisible(true);
+            MenuUIManager.Instance.ChangeToPanel(PanelType.LOBBY);
         }
     }
 
-    IEnumerator DestoryMenuUI()
+    public override void OnLobbyServerSceneChanged(string sceneName)
     {
-        MenuUIManager.Instance.HideMenu();
-        yield return new WaitForSeconds(0.3f);
-        Destroy(MenuUIManager.Instance.gameObject);
+        Debug.LogError("OnLobbyServerSceneChanged" + sceneName);
+        if (networkSceneName == playScene)
+        {
+            MenuUIManager.Instance.SetVisible(false);
+        }
+        else if (networkSceneName == lobbyScene)
+        {
+            MenuUIManager.Instance.SetVisible(true);
+            MenuUIManager.Instance.ChangeToPanel(PanelType.LOBBY);
+        }
     }
+
 
     public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
     {
@@ -198,7 +211,6 @@ public class GameLobbyManger : NetworkLobbyManager
         if (NetworkServer.active)
         {
             ServerReturnToLobby();
-            StopHost();
         }
         else
         {

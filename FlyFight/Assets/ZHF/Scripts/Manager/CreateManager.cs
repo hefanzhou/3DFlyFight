@@ -2,12 +2,20 @@
 using System.Collections;
 
 public class CreateManager : MonoBehaviour {
-    public GameObject managerGo;
+    public GameObject[] dontDestoryGOs;
     void Awake()
     {
-        if (GameLobbyManger.Instance == null)
+        foreach (var go in dontDestoryGOs)
         {
-            Instantiate(managerGo);
+            if (GameObject.Find("/" + go.name) == null)
+            {
+                var goTemp = Instantiate(go) as GameObject;
+                goTemp.name = go.name;
+                DontDestroyOnLoad(goTemp);
+            }
         }
     }
+
+  
+
 }

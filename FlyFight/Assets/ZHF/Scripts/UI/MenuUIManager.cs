@@ -125,9 +125,9 @@ public class MenuUIManager : MonoBehaviour
         }
     }
 
-    public void HideMenu()
+    public void SetVisible(bool isVisible)
     {
-        mainCanvas.enabled = false;
+        transform.gameObject.SetActive(isVisible);
     }
 
 }
