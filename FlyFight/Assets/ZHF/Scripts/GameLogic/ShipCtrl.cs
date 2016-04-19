@@ -52,21 +52,24 @@ public class ShipCtrl : MonoBehaviour
     void Start()
     {
         netIndentity = GetComponent<NetworkIdentity>();
-        
+        if (netIndentity.hasAuthority) RegisterCtrHandle();
+
+    }
+
+    void RegisterCtrHandle()
+    {
         GameCtrInput.Instance.XStickEvent += HandleXStick;
         GameCtrInput.Instance.YStickEvent += HandleYStick;
         GameCtrInput.Instance.ShootEvent += HandleShoot;
         GameCtrInput.Instance.BoostEvent += HandleBoost;
+        Camera.main.gameObject.GetComponent<ShipCamera>().target = gameObject;
     }
 
     void FixedUpdate()
     {
-        //if (netIndentity.hasAuthority)
-
+        if (!netIndentity.hasAuthority) return;
         Rotation();
         Movement();
-
-
     }
 
 
@@ -85,40 +88,6 @@ public class ShipCtrl : MonoBehaviour
         }
         currentBoostVelocity = Mathf.Clamp(currentBoostVelocity, 0, maxBoostVelocity);
 
-        Vector3 adjustedForward = forward;
-
-        /* Do some collision detection. If you're about to hit the environment, then adjust for it. */
-        RaycastHit hit;
-
-        if (Physics.Raycast(transform.position, forward, out hit, distanceForwardToCheckForCollision))
-        {
-
-            if (hit.collider.gameObject.CompareTag("Unpassable"))
-            {
-
-                float angleBetweenForwardAndDown = Vector3.Dot(forward, Vector3.down);
-                float angleBetweenGroundAndLeft = Vector3.Dot(hit.normal, Vector3.left);
-
-                /* If spaceship is ramming directly into the ground. */
-                if (Mathf.Abs(angleBetweenForwardAndDown) <= 1 && Mathf.Abs(angleBetweenGroundAndLeft) <= Mathf.Epsilon)
-                {
-                    adjustedForward.y = 0.0f;
-                }
-                /* Otherwise, spaceship is ramming into arbitrary other terrain, eg. wall or incline. */
-                else
-                {
-                    adjustedForward = Vector3.Reflect(adjustedForward, hit.normal);
-
-                    this.GetComponent<Rigidbody>().MoveRotation(
-                        Quaternion.Slerp(
-                            this.transform.localRotation,
-                            Quaternion.Euler(adjustedForward),
-                            Time.deltaTime
-                        )
-                    );
-                }
-            }
-        }
 
         /* Boost forward. */
         GetComponent<Rigidbody>().MovePosition(
