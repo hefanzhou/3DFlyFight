@@ -21,7 +21,7 @@ Material:
         second:
           m_Texture: {fileID: 2800000, guid: 2f101d251fb4740c3a62fae44ba0b6d8, type: 3}
           m_Scale: {x: 30, y: 1}
-          m_Offset: {x: -191.053696, y: 0}
+          m_Offset: {x: -250.26036, y: 0}
     m_Floats:
       data:
         first:
@@ -31,7 +31,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 1, g: 0, b: 0, a: .478431374}
+        second: {r: 1, g: 0, b: 0, a: 0.47843137}
       data:
         first:
           name: _TintColor
