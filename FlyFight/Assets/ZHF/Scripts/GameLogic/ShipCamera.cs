@@ -12,6 +12,7 @@ public class ShipCamera : MonoBehaviour {
 
     void LateUpdate()
     {
+        if (target == null) return;
         Vector3 forward = target.transform.forward; 
 
         Vector3 newCameraPosition = target.transform.position + forward * cameraToModel.z;

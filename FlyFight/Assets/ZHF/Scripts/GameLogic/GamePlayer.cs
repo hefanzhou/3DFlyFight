@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
-
-public class GamePlayer : MonoBehaviour {
+public class GamePlayer : NetworkManager{
 
 	void Start () {
 	    

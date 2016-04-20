@@ -33,6 +33,7 @@ public class GameLobbyManger : NetworkLobbyManager
     {
         instance = this;
         mainPlayer = new Player();
+        Initialize();
     }
 
     void Initialize()
@@ -156,7 +157,6 @@ public class GameLobbyManger : NetworkLobbyManager
 
     public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, short playerControllerId)
     {
-
         int index = (int)mainPlayer.type;
         Transform position = base.GetStartPosition();
         GameObject go = Instantiate(playerPerfabs[index], position.position, position.rotation) as GameObject;
