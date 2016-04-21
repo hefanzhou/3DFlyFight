@@ -48,7 +48,6 @@ GameObject:
   - 136: {fileID: 13688810}
   - 114: {fileID: 11439374}
   - 114: {fileID: 11477116}
-  - 114: {fileID: 11488602}
   - 114: {fileID: 11465004}
   - 114: {fileID: 11418844}
   m_Layer: 0
@@ -242,6 +241,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f32d0f17346abe94e8ed0223ebee0242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 6
+  basicHarm: 0
+  killedNum: 0
+  playerName: 
+  shipType: 0
 --- !u!114 &11465004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -295,6 +299,8 @@ MonoBehaviour:
   tiltAlignRate: 2
   driftTiltMax: 70
   normalTiltMax: 35
+  bulletPrefab: {fileID: 190882, guid: e7ad3e9963c36c44e83cf7e12ea7b521, type: 2}
+  gamePlayer: {fileID: 0}
   xStick: 0
   yStick: 0
   shooting: 0
@@ -308,17 +314,6 @@ MonoBehaviour:
   forward: {x: 0, y: 0, z: 0}
   right: {x: 0, y: 0, z: 0}
   maxBoostVelocity: 670
---- !u!114 &11488602
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 155710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d147d078e60c7ac469d1351a12478183, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!136 &13688810
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -1885,6 +1880,14 @@ Prefab:
       propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bullet
+      value: 
+      objectReference: {fileID: 190882, guid: e7ad3e9963c36c44e83cf7e12ea7b521, type: 2}
+    - target: {fileID: 0}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 190882, guid: e7ad3e9963c36c44e83cf7e12ea7b521, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 155710}

@@ -59,9 +59,11 @@ GameObject:
   m_Component:
   - 4: {fileID: 478820}
   - 54: {fileID: 5441138}
-  - 135: {fileID: 13589742}
   - 114: {fileID: 11425490}
   - 114: {fileID: 11434788}
+  - 136: {fileID: 13629658}
+  - 114: {fileID: 11476932}
+  - 114: {fileID: 11433744}
   m_Layer: 0
   m_Name: ship4
   m_TagString: Spaceship
@@ -1008,6 +1010,26 @@ MonoBehaviour:
   materialToScroll: {fileID: 2100000, guid: 271072384f93c3641a8219e49377aa55, type: 2}
   xRate: 0.33
   yRate: 0.5
+--- !u!114 &11433744
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 120714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &11434788
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1019,18 +1041,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f32d0f17346abe94e8ed0223ebee0242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &13589742
-SphereCollider:
+  hp: 6
+  basicHarm: 0
+  killedNum: 0
+  playerName: 
+  shipType: 0
+--- !u!114 &11476932
+MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 120714}
-  m_Material: {fileID: 13400000, guid: 67db31eead11e8d6d00011d98d76c639, type: 2}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf28d3595c0aac548a1b7b215f308cf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boostAcceleration: 10
+  deaccelerationIdle: 0.92
+  deaccelerationBraking: 4
+  normalTurnSpeed: 100
+  driftTurnSpeed: 200
+  driftTiltRate: 4
+  normalTiltRate: 2.5
+  tiltAlignRate: 2
+  driftTiltMax: 70
+  normalTiltMax: 35
+  bulletPrefab: {fileID: 190882, guid: e7ad3e9963c36c44e83cf7e12ea7b521, type: 2}
+  gamePlayer: {fileID: 0}
+  xStick: 0
+  yStick: 0
+  shooting: 0
+  boosting: 0
+  braking: 0
+  drifting: 0
+  idle: 0
+  swappingWeapon: 0
+  currentBoostVelocity: 0
+  distanceForwardToCheckForCollision: 1000
+  forward: {x: 0, y: 0, z: 0}
+  right: {x: 0, y: 0, z: 0}
+  maxBoostVelocity: 670
+--- !u!136 &13629658
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 120714}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 125
-  m_Center: {x: 0, y: 0, z: 15}
+  m_Radius: 49.16
+  m_Height: 205.7
+  m_Direction: 2
+  m_Center: {x: 0, y: -17.5, z: 0}
 --- !u!198 &19800052
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -10329,6 +10393,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: hp
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

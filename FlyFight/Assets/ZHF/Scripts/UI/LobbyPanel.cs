@@ -52,7 +52,7 @@ public class LobbyPanel : MonoBehaviour {
 
     void OnClickJoinBtn()
     {
-        GameLobbyManger.Instance.mainPlayer.lobbyPlayer.SendReadyToBeginMessage();
+        GameLobbyManger.Instance.mainPlayerData.lobbyPlayer.SendReadyToBeginMessage();
     }
 
     void OnClickOptionBtn()

@@ -38,6 +38,6 @@ public class GameCtrInput : MonoBehaviour {
         YStickEvent(Vertical);
 
         BoostEvent(Input.GetKey(KeyCode.Space));
-        ShootEvent(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
+        ShootEvent(Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl));
     }
 }

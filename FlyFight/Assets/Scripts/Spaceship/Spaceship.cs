@@ -84,7 +84,6 @@ public class Spaceship : MonoBehaviour, ITargetable {
 			}
 			selectPressedLastFrame = InputManager.ActiveDevice.GetControl(InputControlType.Select).IsPressed;
 		}
-
 	}
 	
 	

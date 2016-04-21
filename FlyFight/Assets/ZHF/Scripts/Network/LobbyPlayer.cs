@@ -6,11 +6,16 @@ using UnityEngine.UI;
 
     public class LobbyPlayer : NetworkLobbyPlayer
     {
-        public Text nameText = null;
 
         [SyncVar(hook="OnMyName")]
         public string playerName = "";
-
+        private Text nameText = null;
+        [SyncVar]
+        public ShipType shipType;
+        void Awake()
+        {
+            nameText = transform.Find("Name").GetComponent<Text>();
+        }
         public override void OnClientEnterLobby()
         {//生成lobbyPlayer, 当进入一个客户端  （如果房间里有已有n个客户端，那么当本地生成这n个player时，每个对象上都会调用） 适合做初始化操作
 
@@ -44,9 +49,9 @@ using UnityEngine.UI;
         void SetupLocalPlayer()
         {
             Debug.LogWarning("start Local" + playerName);
-            GameLobbyManger.Instance.mainPlayer.lobbyPlayer = this;
-            if (playerName == "")
-                CmdNameChanged(GameLobbyManger.Instance.mainPlayer.name);
+            GameLobbyManger.Instance.mainPlayerData.lobbyPlayer = this;
+            if (playerName == "") CmdNameChanged(GameLobbyManger.Instance.mainPlayerData.name);
+            shipType = GameLobbyManger.Instance.mainPlayerData.type;
         }
 
         void SetupOtherPlayer()

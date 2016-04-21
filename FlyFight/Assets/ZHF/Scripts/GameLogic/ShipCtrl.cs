@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
-public class ShipCtrl : MonoBehaviour
+public class ShipCtrl : NetworkBehaviour
 {
     public float boostAcceleration = 10.0f;
     public float deaccelerationIdle = 0.92f;
@@ -17,6 +17,11 @@ public class ShipCtrl : MonoBehaviour
     public float driftTiltMax = 70f;
     public float normalTiltMax = 35f;
     private float currentTilt;
+
+
+    public GameObject bulletPrefab;
+    [HideInInspector]
+    public GamePlayer gamePlayer;
 
     [HideInInspector]
     public float xStick; /* Tilt of left analogue stick every frame. */
@@ -52,6 +57,7 @@ public class ShipCtrl : MonoBehaviour
     void Start()
     {
         netIndentity = GetComponent<NetworkIdentity>();
+        gamePlayer = GetComponent<GamePlayer>();
         if (netIndentity.hasAuthority) RegisterCtrHandle();
 
     }
@@ -64,7 +70,7 @@ public class ShipCtrl : MonoBehaviour
         GameCtrInput.Instance.BoostEvent += HandleBoost;
         Camera.main.gameObject.GetComponent<ShipCamera>().target = gameObject;
     }
-
+     [ClientCallback]
     void FixedUpdate()
     {
         if (!netIndentity.hasAuthority) return;
@@ -159,6 +165,7 @@ public class ShipCtrl : MonoBehaviour
     void HandleShoot(bool isShoot)
     {
         shooting = isShoot;
+        if (shooting) Shoot();
     }
 
     void HandleBoost(bool isBoost)
@@ -166,5 +173,33 @@ public class ShipCtrl : MonoBehaviour
         boosting = isBoost;
     }
 
+    void Shoot()
+    {
+        CmdShoot();
+    }
 
+    [Command]
+    public void CmdShoot()
+    {
+        Debug.Log("@@@@CMdFire");
+        if (!isClient) //avoid to create bullet twice (here & in Rpc call) on hosting client
+            CreateBullets();
+        //强行在所有客户端生成，避免同步子弹到服务器
+        RpcShoot();
+    }
+
+    [ClientRpc]
+    public void RpcShoot()
+    {
+        Debug.Log("@@@@RpcFire");
+        CreateBullets();
+    }
+
+    void CreateBullets()
+    {
+        GameObject go = Instantiate(bulletPrefab, transform.position, Quaternion.identity) as GameObject;
+        ShipBullet bullet = go.GetComponent<ShipBullet>();
+        bullet.originalDirection = transform.forward;
+        bullet.owner = gamePlayer;
+    }
 }

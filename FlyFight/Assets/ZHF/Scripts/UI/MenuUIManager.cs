@@ -127,7 +127,7 @@ public class MenuUIManager : MonoBehaviour
 
     public void SetVisible(bool isVisible)
     {
-        transform.gameObject.SetActive(isVisible);
+        transform.parent.gameObject.SetActive(isVisible);
     }
 
 }

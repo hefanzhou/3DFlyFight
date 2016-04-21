@@ -407,9 +407,25 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: playerPerfabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_LogLevel
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: playerPerfabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 148992, guid: 1c2f0651aa9d45040b0b62f9e2d328b0, type: 2}
+    - target: {fileID: 0}
+      propertyPath: playerPerfabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 106300, guid: 0e9435cb6b175a747b491ef0f445dc7a, type: 2}
+    - target: {fileID: 0}
+      propertyPath: playerPerfabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 120714, guid: acb063bc12376cf4ab708fa61ba27b84, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 145100}

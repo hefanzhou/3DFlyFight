@@ -9,7 +9,7 @@ public class GameLobbyManger : NetworkLobbyManager
 {
 
     [HideInInspector]
-    public Player mainPlayer;
+    public PlayerData mainPlayerData;
 
     public GameObject[] playerPerfabs;
     private static GameLobbyManger instance = null;
@@ -32,7 +32,7 @@ public class GameLobbyManger : NetworkLobbyManager
     void Awake()
     {
         instance = this;
-        mainPlayer = new Player();
+        mainPlayerData = new PlayerData();
         Initialize();
     }
 
@@ -58,7 +58,11 @@ public class GameLobbyManger : NetworkLobbyManager
 
     public override GameObject OnLobbyServerCreateLobbyPlayer(NetworkConnection conn, short playerControllerId)
     {
-        Debug.Log("@@@OnLobbyServerCreateLobbyPlayer");
+        Debug.LogError("@@@OnLobbyServerCreateLobbyPlayer");
+        foreach(var item in conn.playerControllers)
+        {
+            Debug.LogError(item.gameObject.name + item.playerControllerId);
+        }
         GameObject obj = Instantiate(lobbyPlayerPrefab.gameObject) as GameObject;
         UpdateMinPlayers();
         ++minPlayers;//current not create lobbyplayer but updatefunction relay it
@@ -140,7 +144,7 @@ public class GameLobbyManger : NetworkLobbyManager
     public override void OnLobbyClientExit()
     {
         base.OnLobbyClientExit();
-        if(mainPlayer.lobbyPlayer != null)
+        if(mainPlayerData.lobbyPlayer != null)
         MenuUIManager.Instance.ChangeToPanel(PanelType.MENU);
     }
 
@@ -155,12 +159,14 @@ public class GameLobbyManger : NetworkLobbyManager
     }
 
 
+
     public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, short playerControllerId)
     {
-        int index = (int)mainPlayer.type;
+        LobbyPlayer itemLobbyPlayer = conn.playerControllers[playerControllerId].gameObject.GetComponent<LobbyPlayer>();
+        int index = (int)itemLobbyPlayer.shipType;
         Transform position = base.GetStartPosition();
         GameObject go = Instantiate(playerPerfabs[index], position.position, position.rotation) as GameObject;
-        Debug.Log("OnLobbyServerCreateGamePlayer" + SceneManager.GetActiveScene().name);
+        Debug.LogError("@@@@@@OnLobbyServerCreateGamePlayer:" + itemLobbyPlayer.playerName);
         return go;
     }
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
@@ -201,9 +207,11 @@ public class GameLobbyManger : NetworkLobbyManager
 
     public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
     {
-        Debug.LogError("OnLobbyServerSceneLoadedForPlayer" + SceneManager.GetActiveScene().name);
-        PVPGameManager.Instance.mineGamePlayer = gamePlayer.GetComponent<GamePlayer>();
-        return base.OnLobbyServerSceneLoadedForPlayer(lobbyPlayer, gamePlayer);
+        Debug.LogError("@@@@@@@OnLobbyServerSceneLoadedForPlayer" + SceneManager.GetActiveScene().name);
+        LobbyPlayer itemLobbyPlayer = lobbyPlayer.GetComponent<LobbyPlayer>();
+        GamePlayer itemGamePlayer = gamePlayer.GetComponent<GamePlayer>();
+        itemGamePlayer.InitByLobbyPlayer(itemLobbyPlayer);
+        return true;
     }
 
     public void ReturnToStartScene()
