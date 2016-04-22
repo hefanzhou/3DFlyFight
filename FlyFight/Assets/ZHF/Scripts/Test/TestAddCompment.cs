@@ -3,7 +3,6 @@ using System.Collections;
 
 public class TestAddCompment : MonoBehaviour {
 
-    public GameObject go;
 	// Use this for initialization
 	void Start () {
 	
@@ -16,9 +15,10 @@ public class TestAddCompment : MonoBehaviour {
 
     void OnGUI()
     {
-        if (GUILayout.Button("Change"))
+        if (GUILayout.Button("Call"))
         {
-           
+            Debug.Log("Call");
+            CountDownManger.Instance.ShowCountDown(3, "{0: 0.00}scends relife...", () => { Debug.Log("Complet!!"); }, 0.01f);
         }
     }
 }
