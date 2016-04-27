@@ -10,6 +10,8 @@ public class UIPlayerCount : MonoBehaviour {
     private Text nameText;
     private Text kdText;
 
+    private int killAmount = 0;
+    private int deathAmount = 0;
     void Awake()
     {
         bgImage = transform.Find("BG").GetComponent<Image>();
@@ -17,7 +19,19 @@ public class UIPlayerCount : MonoBehaviour {
         nameText = transform.Find("NameText").GetComponent<Text>();
         kdText = transform.Find("KDText").GetComponent<Text>();
     }
-	
+    public void InitByGamePlayer(GamePlayer gamePlayer)
+    {
+        if (gamePlayer == PVPGameManager.Instance.mineGamePlayer) SetHighLight();
+        SetName(gamePlayer.playerName);
+        SetHeadImage(gamePlayer.shipType);
+        
+        killAmount = gamePlayer.KillePlayerAmount;
+        deathAmount = gamePlayer.DeathAmount;
+        RefreshKdText();
+
+        gamePlayer.OnKillePlayerAmountEvent += OnKillAmount;
+        gamePlayer.OnDeathAmountEvent += OnDeathAmount;
+    }
     public void SetHighLight()
     {
         bgImage.color = highLightColor;
@@ -28,13 +42,25 @@ public class UIPlayerCount : MonoBehaviour {
         nameText.text = name;
     }
 
-    public void SetHeadImage(Sprite sprite)
+    public void SetHeadImage(ShipType shipType)
     {
-        headImage.sprite = sprite;
+        headImage.sprite = UIPlayerInfoPanelManager.Instance.headSprites[(int)shipType];
     }
 
-    public void SetKdText(int kill, int died)
+    public void RefreshKdText()
     {
-        kdText.text = "Kill:" + kill + "  Died:" + died;
+        kdText.text = "Kill:" + killAmount + "  Died:" + deathAmount;
+    }
+
+    public void OnKillAmount(int kill)
+    {
+        killAmount = kill;
+        RefreshKdText();
+    }
+
+    public void OnDeathAmount(int death)
+    {
+        deathAmount = death;
+        RefreshKdText();
     }
 }

@@ -18,6 +18,7 @@ public class ShipCtrl : NetworkBehaviour
     public float normalTiltMax = 35f;
     private float currentTilt;
 
+    private Transform gunTF;
 
     public GameObject bulletPrefab;
     [HideInInspector]
@@ -51,6 +52,7 @@ public class ShipCtrl : NetworkBehaviour
     [HideInInspector]
     public Vector3 right;
 
+    [HideInInspector]
     public float maxBoostVelocity = 150.0f;
 
     private NetworkIdentity netIndentity;
@@ -58,6 +60,7 @@ public class ShipCtrl : NetworkBehaviour
     {
         netIndentity = GetComponent<NetworkIdentity>();
         gamePlayer = GetComponent<GamePlayer>();
+        gunTF = transform.Find("Gun");
         if (netIndentity.hasAuthority) RegisterCtrHandle();
 
     }
@@ -68,12 +71,15 @@ public class ShipCtrl : NetworkBehaviour
         GameCtrInput.Instance.YStickEvent += HandleYStick;
         GameCtrInput.Instance.ShootEvent += HandleShoot;
         GameCtrInput.Instance.BoostEvent += HandleBoost;
-        Camera.main.gameObject.GetComponent<ShipCamera>().target = gameObject;
+
+        Camera.main.GetComponent<ShipCamera>().target = gameObject;
+        
     }
+
      [ClientCallback]
     void FixedUpdate()
     {
-        if (!netIndentity.hasAuthority) return;
+        if (!netIndentity.hasAuthority || gamePlayer.IsDeath || PVPGameManager.Instance.IsGameOver) return;
         Rotation();
         Movement();
     }
@@ -181,7 +187,6 @@ public class ShipCtrl : NetworkBehaviour
     [Command]
     public void CmdShoot()
     {
-        Debug.Log("@@@@CMdFire");
         if (!isClient) //avoid to create bullet twice (here & in Rpc call) on hosting client
             CreateBullets();
         //强行在所有客户端生成，避免同步子弹到服务器
@@ -191,13 +196,12 @@ public class ShipCtrl : NetworkBehaviour
     [ClientRpc]
     public void RpcShoot()
     {
-        Debug.Log("@@@@RpcFire");
         CreateBullets();
     }
 
     void CreateBullets()
     {
-        GameObject go = Instantiate(bulletPrefab, transform.position, Quaternion.identity) as GameObject;
+        GameObject go = Instantiate(bulletPrefab, gunTF.position, Quaternion.identity) as GameObject;
         ShipBullet bullet = go.GetComponent<ShipBullet>();
         bullet.originalDirection = transform.forward;
         bullet.owner = gamePlayer;

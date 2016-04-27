@@ -1,19 +1,58 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using System;
 
-public class GamePlayer : NetworkBehaviour{
+public class GamePlayer : NetworkBehaviour, IComparable<GamePlayer>
+{
 
     [SyncVar(hook="OnHpChanged")]
     public int hp = 6;
-    public int basicHarm = 0;
-    [HideInInspector]
-    public int killedNum = 0;
-    [SyncVar]
+     [SyncVar]
     public string playerName;
     [SyncVar]
+    public int basicHarm = 0;
+
+    [HideInInspector]
     public ShipType shipType;
+
+    public Action<int> OnKillePlayerAmountEvent;
+    public Action<int> OnDeathAmountEvent;
+    public Action<int> OnHpChangeEvent;
+
+    private int killePlayerAmount = 0;
+
+    public int KillePlayerAmount
+    {
+        get { return killePlayerAmount; }
+        set
+        {
+            killePlayerAmount = value;
+            if(OnKillePlayerAmountEvent != null) OnKillePlayerAmountEvent(killePlayerAmount);
+        }
+    }
+    private int deathAmount = 0;
+
+    public int DeathAmount
+    {
+        get { return deathAmount; }
+        set 
+        {
+            deathAmount = value;
+            if(OnDeathAmountEvent != null) OnDeathAmountEvent(deathAmount);
+        }
+    }
+    [HideInInspector]
+    public bool canCtl = true;
+
+    private bool isDeath = false;
+
+    public bool IsDeath
+    {
+        get { return isDeath; }
+    }
 
     private ShipCtrl shipCtrl;
     private UIPlayerInfo uiPlayerInfo;
@@ -35,32 +74,17 @@ public class GamePlayer : NetworkBehaviour{
         }
         uiPlayerInfo = UIPlayerInfoPanelManager.Instance.AddPlayerInfo();
         uiPlayerInfo.Init(this);
-        Debug.LogError("ADDDDDDDD" + name + playerName);
     }
-	// Update is called once per frame
-	void Update () {
-        Debug.LogError("Update" + playerName);
-	}
+
     void OnHpChanged(int newValue)
     {
         hp = newValue;
-        uiPlayerInfo.OnHpChange(hp);
+        if (OnHpChangeEvent != null) OnHpChangeEvent(newValue);
     }
 
-    [ServerCallback]
-    public void Demage(ShipBullet bullet)
-    {
-        hp -= (bullet.harm + this.basicHarm);
-        if (hp <= 0)
-        {
-            Killed(bullet.owner);
-            bullet.owner.OnKillShip(this);
-        }
-        uiPlayerInfo.OnHpChange(hp);
-    }
 
     [Server]
-    void Killed(GamePlayer killer)
+    public void Killed(GamePlayer killer)
     {
         RpcKilled();
     }
@@ -69,15 +93,43 @@ public class GamePlayer : NetworkBehaviour{
     void RpcKilled()
     {
         hp = 0;
-        SetVisual(false);
+        DeathAmount++;
+        ProcessDeath();
+
     }
-    void SetVisual (bool isVisual)
+    void ProcessDeath ()
     {
-        this.gameObject.SetActive(isVisual);
+        isDeath = true;
+        this.gameObject.SetActive(false);
+        if(hasAuthority && !PVPGameManager.Instance.IsGameOver)
+        {
+            CountDownManger.Instance.ShowCountDown(5, "{0:0.0} scends rebirth..", () => { CmdRebirth(); }, 0.1f);
+        }
+    }
+    void OnGUI()
+    {
+        if (!hasAuthority) return;
+        //if (GUILayout.Button("Rebirth")) CmdRebirth();
+
+    }
+    [Command]
+    void CmdRebirth()
+    {
+        RpcRebirth();
+    }
+
+    [ClientRpc]
+    void RpcRebirth()
+    {
+        isDeath = false;
+        hp = 6;
+        //uiPlayerInfo.OnHpChange(hp);
+        this.transform.position =  GameLobbyManger.Instance.GetStartPosition().position;
+        this.gameObject.SetActive(true);
     }
 
     [Server]
-    void OnKillShip(GamePlayer killedPlayer)
+    public void OnKillShip(GamePlayer killedPlayer)
     {
         RpcOnKillShip();
     }
@@ -85,8 +137,8 @@ public class GamePlayer : NetworkBehaviour{
     [ClientRpc]
     void RpcOnKillShip()
     {
-        killedNum++;
-        uiPlayerInfo.OnKillNumChange(killedNum);
+        KillePlayerAmount++;
+        //uiPlayerInfo.OnKillNumChange(killePlayerAmount);
     }
 
     public void InitByLobbyPlayer(LobbyPlayer lobbyPlayer)
@@ -95,4 +147,14 @@ public class GamePlayer : NetworkBehaviour{
         this.shipType = lobbyPlayer.shipType;
     }
 
+
+
+
+
+
+    int IComparable<GamePlayer>.CompareTo(GamePlayer other)
+    {
+        if (this.killePlayerAmount == other.killePlayerAmount) return other.deathAmount - this.deathAmount;
+        else return other.killePlayerAmount - this.killePlayerAmount;
+    }
 }

@@ -12,11 +12,14 @@ public class GameCtrInput : MonoBehaviour {
 
     public delegate void FloatParmDele(float parm);
     public delegate void BoolParmDele(bool parm);
+    public delegate void NoParmDele();
 
     public event FloatParmDele XStickEvent;
     public event FloatParmDele YStickEvent;
     public event BoolParmDele ShootEvent;
     public event BoolParmDele BoostEvent;
+    public event NoParmDele OpenMenuEvent;
+
 
     void Awake()
     {
@@ -39,5 +42,11 @@ public class GameCtrInput : MonoBehaviour {
 
         BoostEvent(Input.GetKey(KeyCode.Space));
         ShootEvent(Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl));
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.Log("key down");
+            if (OpenMenuEvent != null) OpenMenuEvent();
+        }
     }
 }

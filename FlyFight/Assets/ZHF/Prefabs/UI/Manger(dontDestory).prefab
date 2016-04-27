@@ -426,6 +426,10 @@ Prefab:
       propertyPath: playerPerfabs.Array.data[3]
       value: 
       objectReference: {fileID: 120714, guid: acb063bc12376cf4ab708fa61ba27b84, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_ServerBindToIP
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 145100}

@@ -198,6 +198,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &169280
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 435970}
+  m_Layer: 0
+  m_Name: Gun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &408786
 Transform:
   m_ObjectHideFlags: 1
@@ -235,7 +250,19 @@ Transform:
   - {fileID: 498168}
   - {fileID: 445854}
   m_Father: {fileID: 484984}
-  m_RootOrder: 1
+  m_RootOrder: 2
+--- !u!4 &435970
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 169280}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.1, y: 0.7, z: 103.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 484984}
+  m_RootOrder: 0
 --- !u!4 &436674
 Transform:
   m_ObjectHideFlags: 1
@@ -289,7 +316,7 @@ Transform:
   - {fileID: 486962}
   - {fileID: 417600}
   m_Father: {fileID: 484984}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!4 &484984
 Transform:
   m_ObjectHideFlags: 1
@@ -297,9 +324,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 148992}
   m_LocalRotation: {x: 0, y: -0.7133117, z: 0, w: 0.700847}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -9041.017, y: 2323.9587, z: 4217.219}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 435970}
   - {fileID: 473306}
   - {fileID: 435412}
   m_Father: {fileID: 0}
@@ -755,10 +783,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 6
-  basicHarm: 0
-  killedNum: 0
   playerName: 
   shipType: 0
+  basicHarm: 0
+  killedNum: 0
+  deathNum: 0
 --- !u!114 &11418252
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -870,10 +899,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 49.16
+  m_Radius: 33.7
   m_Height: 205.7
   m_Direction: 2
-  m_Center: {x: 0, y: -17.5, z: 0}
+  m_Center: {x: 0, y: 8.23, z: 0}
 --- !u!198 &19819758
 ParticleSystem:
   m_ObjectHideFlags: 1

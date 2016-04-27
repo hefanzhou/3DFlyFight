@@ -22,7 +22,7 @@ public class ShipBullet : MonoBehaviour {
         GamePlayer gamePlayer = collision.gameObject.GetComponent<GamePlayer>();
         if (gamePlayer != null && gamePlayer != owner)
         {
-            gamePlayer.Demage(this);
+            PVPGameManager.Instance.CalcDemage(gamePlayer, this);
             Destroy(gameObject);
         }
     }

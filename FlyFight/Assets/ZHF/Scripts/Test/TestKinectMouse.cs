@@ -26,10 +26,5 @@ public class TestKinectMouse : MonoBehaviour {
             //KinectMouseManager.Instance.LeftUp();
 		}
 
-		if (Input.GetKey(KeyCode.Q))
-		{
-			Debug.Log(Screen.width / 2 + "/" + Screen.height / 2);
-			KinectMouseManager.Instance.CursorPosition = new Vector2(Screen.width / 2, Screen.height / 2); ;
-		}
 	}
 }

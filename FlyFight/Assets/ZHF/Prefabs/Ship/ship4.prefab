@@ -263,6 +263,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &180920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 476706}
+  m_Layer: 0
+  m_Name: Gun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &410044
 Transform:
   m_ObjectHideFlags: 1
@@ -407,6 +422,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 423906}
   m_RootOrder: 3
+--- !u!4 &476706
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 180920}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: -10.1, z: 83.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 478820}
+  m_RootOrder: 2
 --- !u!4 &478820
 Transform:
   m_ObjectHideFlags: 1
@@ -414,11 +441,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 120714}
   m_LocalRotation: {x: 0, y: 0.7071069, z: 0, w: 0.70710677}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -9642.81, y: 2491.4724, z: 4561.641}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 410044}
   - {fileID: 424244}
+  - {fileID: 476706}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &487136
@@ -1042,10 +1070,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 6
-  basicHarm: 0
-  killedNum: 0
   playerName: 
   shipType: 0
+  basicHarm: 0
+  killedNum: 0
+  deathNum: 0
 --- !u!114 &11476932
 MonoBehaviour:
   m_ObjectHideFlags: 1

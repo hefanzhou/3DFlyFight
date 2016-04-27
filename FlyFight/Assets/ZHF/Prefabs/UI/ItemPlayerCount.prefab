@@ -189,7 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d28c62fab6f3cc4bb41c8c640f3907c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highLightColor: {r: 0.26503026, g: 0.83823526, b: 0.83823526, a: 0}
+  highLightColor: {r: 0.26503026, g: 0.83823526, b: 0.83823526, a: 1}
 --- !u!114 &11485020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -342,7 +342,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: highLightColor.a
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 156266}

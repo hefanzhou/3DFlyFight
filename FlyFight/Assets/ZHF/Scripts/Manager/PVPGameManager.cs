@@ -3,12 +3,22 @@ using System.Collections;
 using System.Collections.Generic; 
 using UnityEngine.Networking;
 
-public class PVPGameManager : MonoBehaviour {
+public class PVPGameManager : NetworkBehaviour {
 
+    //kill times for game over
+    public int MaxKillAmount  = 3;
     [HideInInspector]
     public GamePlayer mineGamePlayer;
+
+    private bool isGameOver = false;
+
+    public bool IsGameOver
+    {
+        get { return isGameOver; }
+    }
     private NetworkConnection conn;
     private static PVPGameManager instance;
+
 
     public static PVPGameManager Instance
     {
@@ -31,12 +41,49 @@ public class PVPGameManager : MonoBehaviour {
 	void Update () {
 	
 	}
+    [Server]
+    void CheckIsGameOver(int killePlayerAmount)
+    {
+        if (killePlayerAmount >= MaxKillAmount)
+        {
+            RpcProcessGameOver();   
+        }
+    }
 
+
+    [ClientRpc]
+    void RpcProcessGameOver()
+    {
+        Debug.LogError("RpcProcessGameOver");
+        isGameOver = true;
+        UIPlayerInfoPanelManager.Instance.ClosePanle();
+        UICountPanelManager.Instance.OpenPanel();
+    }
     public void AddPlayer(GamePlayer _gamePlayer)
     {
         if (!gamePlayerList.Contains(_gamePlayer))
         {
             gamePlayerList.Add(_gamePlayer);
+        }
+    }
+
+    [ServerCallback]
+    public void CalcDemage(GamePlayer demagePlayer, ShipBullet bullet)
+    {
+        demagePlayer.hp -= (bullet.harm + demagePlayer.basicHarm);
+        if (demagePlayer.hp <= 0)
+        {
+            CheckIsGameOver(bullet.owner.KillePlayerAmount + 1);
+            demagePlayer.Killed(bullet.owner);
+            bullet.owner.OnKillShip(demagePlayer);
+        }
+    }
+
+    void OnGUI()
+    {
+        if (GUILayout.Button("Sort"))
+        {
+            gamePlayerList.Sort();
         }
     }
 }
