@@ -17,7 +17,18 @@ public class KinectInputModule : StandaloneInputModule
     public int playerIndex = 0;
 
     [Tooltip("Whether to use kinect")]
-    public bool UseKinectCtrl = true;
+    public bool useKinectCtrl = true;
+
+    public bool UseKinectCtrl
+    {
+        get { return useKinectCtrl; }
+        set 
+        { 
+            useKinectCtrl = value;
+            Cursor.visible = !useKinectCtrl;
+            cursorTf.gameObject.SetActive(useKinectCtrl);
+        }
+    }
 
     [Tooltip("Smooth factor for cursor movement.")]
     public float smoothFactor = 3f;
@@ -50,6 +61,8 @@ public class KinectInputModule : StandaloneInputModule
     private HandEventType lastLeftHandEvent = HandEventType.Release;
 
     private Vector3 leftHandPos = Vector3.zero;
+
+
     private Vector3 leftHandScreenPos = Vector3.zero;
     private Vector3 leftIboxLeftBotBack = Vector3.zero;
     private Vector3 leftIboxRightTopFront = Vector3.zero;
@@ -66,6 +79,8 @@ public class KinectInputModule : StandaloneInputModule
     private HandEventType lastRightHandEvent = HandEventType.Release;
 
     private Vector3 rightHandPos = Vector3.zero;
+
+
     private Vector3 rightHandScreenPos = Vector3.zero;
     private Vector3 rightIboxLeftBotBack = Vector3.zero;
     private Vector3 rightIboxRightTopFront = Vector3.zero;
@@ -105,6 +120,8 @@ public class KinectInputModule : StandaloneInputModule
             return screenPosition;
         }
     }
+
+
     private static KinectInputModule instance;
 
     public static KinectInputModule Instance
@@ -157,6 +174,10 @@ public class KinectInputModule : StandaloneInputModule
         return leftHandScreenPos;
     }
 
+    public Vector3 GetLeftHandPos()
+    {
+        return leftHandPos;
+    }
     /// <summary>
     /// Determines whether the left hand is primary for the user.
     /// </summary>
@@ -230,6 +251,10 @@ public class KinectInputModule : StandaloneInputModule
         return rightHandScreenPos;
     }
 
+    public Vector3 GetRightHandPos()
+    {
+        return rightHandPos;
+    }
     /// <summary>
     /// Determines whether the right hand is primary for the user.
     /// </summary>
@@ -288,7 +313,6 @@ public class KinectInputModule : StandaloneInputModule
         cursorTf = transform.FindChild("cursor").gameObject.GetComponent<RectTransform>();
         circleIm = transform.FindChild("cursor/cricle").gameObject.GetComponent<Image>();
         circleIm.fillAmount = 0;
-        if (!UseKinectCtrl) cursorTf.gameObject.SetActive(false);
 
         OnKinectCursorEnterEvent += OnKinectCursorEnter;
         OnKinectCursorExitEvent += OnKinectCursorExit;
@@ -310,7 +334,6 @@ public class KinectInputModule : StandaloneInputModule
     void Update()
     {
         if (!UseKinectCtrl) return;
-
         KinectManager kinectManager = KinectManager.Instance;
 
         // update Kinect interaction
@@ -672,7 +695,7 @@ public class KinectInputModule : StandaloneInputModule
     {   
         MouseState m_MouseState = base.GetMousePointerEventData(id);
         if (!UseKinectCtrl) return m_MouseState; 
-
+        
         PointerEventData data;
         PointerEventData data2;
         PointerEventData data3;
