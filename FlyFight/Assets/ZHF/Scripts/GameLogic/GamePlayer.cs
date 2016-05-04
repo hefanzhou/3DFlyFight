@@ -16,6 +16,7 @@ public class GamePlayer : NetworkBehaviour, IComparable<GamePlayer>
     public int basicHarm = 0;
 
     [HideInInspector]
+    [SyncVar]
     public ShipType shipType;
 
     public Action<int> OnKillePlayerAmountEvent;

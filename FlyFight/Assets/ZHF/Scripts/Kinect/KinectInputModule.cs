@@ -17,7 +17,7 @@ public class KinectInputModule : StandaloneInputModule
     public int playerIndex = 0;
 
     [Tooltip("Whether to use kinect")]
-    public bool useKinectCtrl = true;
+    private bool useKinectCtrl = true;
 
     public bool UseKinectCtrl
     {
@@ -310,17 +310,28 @@ public class KinectInputModule : StandaloneInputModule
     void Awake()
     {
         instance = this;
+
         cursorTf = transform.FindChild("cursor").gameObject.GetComponent<RectTransform>();
         circleIm = transform.FindChild("cursor/cricle").gameObject.GetComponent<Image>();
         circleIm.fillAmount = 0;
 
         OnKinectCursorEnterEvent += OnKinectCursorEnter;
         OnKinectCursorExitEvent += OnKinectCursorExit;
-        //初始化鼠标位置在屏幕中间
-        Position = new Vector2(Screen.width / 2, Screen.height / 2);
+        //初始化鼠标位置在屏幕左下角
+        Position = new Vector2(0, 0);
         interactionInited = true;
     }
 
+    void Start()
+    {
+        KinectManager kinectManager = KinectManager.Instance;
+
+        if (kinectManager == null || kinectManager.IsInitialized() == false)
+        {
+            PlayerPrefs.SetInt("UseKinect", 0);
+        }
+        UseKinectCtrl = SettingPanel.Instance.GetUseKinect();
+    }
     void OnDestroy()
     {
         // uninitialize Kinect interaction

@@ -7,8 +7,7 @@ public class MenuPanle : MonoBehaviour {
     private Button hostBtn;
     private Button joinBtn;
     private Button quitBtn;
-
-
+    private Button settingBtn;
     private static MenuPanle instance = null;
 
     public static MenuPanle Instance
@@ -29,6 +28,7 @@ public class MenuPanle : MonoBehaviour {
         hostBtn = transform.Find("Host").GetComponent<Button>();
         joinBtn = transform.Find("Join").GetComponent<Button>();
         quitBtn = transform.Find("Quit").GetComponent<Button>();
+        settingBtn = transform.Find("Setting").GetComponent<Button>();
 
     }
 
@@ -37,6 +37,7 @@ public class MenuPanle : MonoBehaviour {
         hostBtn.onClick.AddListener(OnClickHost);
         joinBtn.onClick.AddListener(OnClickJoin);
         quitBtn.onClick.AddListener(OnClickQuit);
+        settingBtn.onClick.AddListener(SettingPanel.Instance.OpenPanel);
     }
 
     void OnClickHost()

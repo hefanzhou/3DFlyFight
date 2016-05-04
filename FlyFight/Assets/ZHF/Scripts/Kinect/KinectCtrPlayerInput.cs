@@ -2,18 +2,28 @@
 using System.Collections;
 using UnityEngine.UI;
 public class KinectCtrPlayerInput : MonoBehaviour {
+    
     [Range(0.1f, 0.8f)]
-    public float minRecognitionSin = 0.2f;
+    public float minRecognitionSin = 0.17f;
     [Range(0.1f, 0.8f)]
-    public float maxRecognitionSin = 0.5f;
-    [Range(1, 1.5f)]
-    public float blowUpZValue = 1.2f;
-    private const float OFFSET_Z = -0.07f;
-	// Use this for initialization
-    private KinectInputModule kinectInput;
-	void Start () {
-       
+    public float maxRecognitionSin = 0.48f;
 
+    [Range(0.1f, 0.8f)]
+    public float minRecognitionHandSin = 0.1f;
+    [Range(0.1f, 0.8f)]
+    public float maxRecognitionHandSin = 0.8f;
+    
+    [Range(2f, 4f)]
+    public float minHandDisScale = 2;
+
+    private const float OFFSET_Z = 0.13f;
+	// Use this for initialization
+    private  Action ctrFunction;
+	void Start () {
+
+        if (KinectInputModule.Instance.UseKinectCtrl) ctrFunction = KinectInput;
+        else ctrFunction = KeyBoradInput;
+       
         outputText = transform.Find("OutPutText").GetComponent<Text>();
 	}
 
@@ -30,14 +40,54 @@ public class KinectCtrPlayerInput : MonoBehaviour {
     private Vector3 originPos = Vector3.zero;
 
     private float shoulderBaseDis = 0.1f;
+
 	// Update is called once per frame
 	void Update () {
+
+        ctrFunction();
+	}
+
+    void KinectInput()
+    {
+        
         if (RefreshJointPos())
         {
-            AnalysePlayerCtr();
+            AnalysePlayerCtrByShouderBase();
+            AnalysePlayerCtrByHand();
         }
+    }
+
+    void KeyBoradInput()
+    {
+        float Horizontal = Input.GetAxis("Horizontal");
+        float Vertical = Input.GetAxis("Vertical");
+
+        GameCtrInput.Instance.CallXStickEvent(Horizontal);
+        GameCtrInput.Instance.CallYStickEvent(Vertical);
+
+        GameCtrInput.Instance.CallBoostEvent(Input.GetKey(KeyCode.Space));
+        GameCtrInput.Instance.CallShootEvent(Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl));
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            GameCtrInput.Instance.CallOpenMenuEvent();
+        }
+    }
+
+    void FixedUpdate()
+    {
+        shoulderBaseDis = Vector3.Distance(spineShoulderPos, spineBasePos);
         
-	}
+        //双手识别
+        minHandDis = shoulderBaseDis * minHandDisScale;
+
+
+        //腰识别
+        minThresholdValue = shoulderBaseDis * minRecognitionSin;
+        maxThresholdValue = shoulderBaseDis * maxRecognitionSin;
+        difOfThreshold = maxThresholdValue - minThresholdValue;
+        
+    }
 
     bool RefreshJointPos()
     {
@@ -71,85 +121,96 @@ public class KinectCtrPlayerInput : MonoBehaviour {
         return result;
     }
 
-   
-    void AnalysePlayerCtr()
+
+    float minThresholdValue = 1;
+    float maxThresholdValue = 1;
+    float difOfThreshold = 1; 
+
+    //以腰为摇杆
+    void AnalysePlayerCtrByShouderBase()
     {
         outputStr = "shouder:" + spineShoulderPos*100;
         outputStr += "\nhip:" + spineBasePos * 100;
 
-        shoulderBaseDis = Vector3.Distance(spineShoulderPos, spineBasePos);
-        float minThresholdValue = shoulderBaseDis * minRecognitionSin;
-        float maxThresholdValue = shoulderBaseDis * maxRecognitionSin;
-        float difOfThreshold = maxThresholdValue - minThresholdValue;
+
 
         outputStr += "\nthresholdValue:" + minThresholdValue;
         outputStr += "\nmaxThresholdValue:" + maxThresholdValue;
 
         //正常站立识 shoulder和base没在垂直线上，需要补上这个误差  
         float offsetX = spineShoulderPos.x - spineBasePos.x;
-        float offsetZ = spineShoulderPos.z - spineBasePos.z + OFFSET_Z;
-        //考虑到前倾动作难度，将z值放大
-        offsetZ *= blowUpZValue;
-        
-        float offsetDis = Mathf.Sqrt(offsetX * offsetX + offsetZ * offsetZ);
-
-        float Horizontal = 0;
-        float Vertical = 0;
-
-        if (offsetDis > minThresholdValue)
-        {
-            outputStr += "\noffsetDis:" + offsetDis;
-            if (offsetDis > maxThresholdValue) offsetDis = maxThresholdValue;
-            float factor = (1 - minThresholdValue / offsetDis);
-            offsetX *= factor;
-            offsetZ *= factor;
-
-            Horizontal = offsetX / difOfThreshold;
-            Vertical = offsetZ / difOfThreshold;
-
-            if (Mathf.Abs(Horizontal) > 1)
-            {
-                Debug.LogError("out");
-            }
-            //过滤误差
-            if (Mathf.Abs(Horizontal) < 0.05) Horizontal = 0;
-            if (Mathf.Abs(Vertical) < 0.05) Vertical = 0;
-        }
+        float offsetZ = spineShoulderPos.z  - (spineBasePos.z + OFFSET_Z);
+        //考虑到后仰动作难度，将z值放大
+        if (offsetZ < 0) offsetZ *= 0.8f;
+        else offsetZ = (offsetZ + 0.08f) * 1.5f;
 
         outputStr += "\noffsetX:" + offsetX;
         outputStr += "\noffsetZ:" + offsetZ;
 
+        float offsetDis = Mathf.Sqrt(offsetX * offsetX + offsetZ * offsetZ);
+
+        float Horizontal = 0;
+        float Vertical = 0;
+        outputStr += "\noffsetDis:" + offsetDis;
+
+        if (offsetDis > minThresholdValue)
+        {
+            float sin = offsetX / offsetDis;
+            float cos = offsetZ / offsetDis;
+
+            if (offsetDis > maxThresholdValue) offsetDis = maxThresholdValue;
+            float scale = (offsetDis - minThresholdValue) / difOfThreshold;
+
+            Horizontal = scale * sin;
+            Vertical = scale * cos;
+
+            //过滤误差
+            if (Mathf.Abs(Horizontal) < 0.05) Horizontal = 0;
+            if (Mathf.Abs(Vertical) < 0.1) Vertical = 0;
+        }
+
+
         outputStr += "\nHorizontal:" + Horizontal;
         outputStr += "\nVertical:" + Vertical; 
       
-        outputText.text = outputStr;
+        //outputText.text = outputStr;
 
-        GameCtrInput.Instance.CallXStickEvent(Horizontal);
         GameCtrInput.Instance.CallYStickEvent(Vertical);
         GameCtrInput.Instance.CallBoostEvent(true);
-      
+
+        float minHandPosZ = Mathf.Min(leftHandPos.z, rightHandPos.z);
+        if ((spineShoulderPos.z - minHandPosZ) > shoulderBaseDis*0.8) GameCtrInput.Instance.CallShootEvent(true);
     }
 
 
+    private float minHandDis = 1;
+
+    //双手控制左右 前倾后仰控制拉升和下倾
+    void AnalysePlayerCtrByHand()
+    {
+        float Horizontal = 0;
+        float Vertical = 0;
+        //hand
+        float currntHandDis = Vector3.Distance(leftHandPos, rightHandPos);
+        if (currntHandDis > minHandDis)
+        {
+            float currntSin = (leftHandPos.y - rightHandPos.y) / currntHandDis;
+            if (Mathf.Abs(currntSin) > minRecognitionHandSin)
+            {
+                float RecognitionSin = maxRecognitionHandSin - minRecognitionHandSin;
+                currntSin = Mathf.Clamp(currntSin, -RecognitionSin, RecognitionSin);
+                Horizontal = currntSin / RecognitionSin;
+            }
+        }
+        GameCtrInput.Instance.CallXStickEvent(Horizontal);
+        if (leftHandState == KinectInterop.HandState.Closed || rightHandState == KinectInterop.HandState.Closed)
+        {
+            GameCtrInput.Instance.CallShootEvent(true);
+        }
+        outputStr = "leftHandPos:" + leftHandPos * 100;
+        outputStr += "\nleftHandPos:" + rightHandPos * 100;
+        outputStr += "\nHorizontal:" + Horizontal;
+        //outputText.text = outputStr;
+    }
 }
 
-
-//part1 用手控制
-//Vector3 leftOffest = leftHandPos - originPos;
-//leftOffest.x *= -1;
-//leftOffest.z *= -1;
-
-//Vector3 rightOffest = rightHandPos - originPos;
-//rightOffest.z *= -1;
-
-
-
-//outputStr = thresholdValue + "\nright:" + rightOffest;
-//if (rightOffest.y > thresholdValue) outputStr += "\nY";
-//else if (rightOffest.x > thresholdValue) outputStr += "-X";
-//else if (rightOffest.z > thresholdValue) outputStr += "-Z";
-
-//outputStr += "\nleft:" + leftOffest;
-//if (leftOffest.y > thresholdValue) outputStr += "\nY";
-//else if (leftOffest.x > thresholdValue) outputStr += "-X";
-//else if (leftOffest.z > thresholdValue) outputStr += "-Z";

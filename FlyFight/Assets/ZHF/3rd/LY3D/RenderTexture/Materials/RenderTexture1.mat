@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: RenderTexture1
+  m_Shader: {fileID: 4800000, guid: 98282bb317707a44594bef9e1b5e976b, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: 2000
+  stringTagMap: {}
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 8400000, guid: 4bf10f34820dc244b860c84417243005, type: 2}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Tex0
+        second:
+          m_Texture: {fileID: 8400000, guid: 3a1d5f94c39ab8749badef9cf0715a4d, type: 2}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Tex1
+        second:
+          m_Texture: {fileID: 8400000, guid: 8df02e92010b4764a90de4d8b2a95d9c, type: 2}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Tex2
+        second:
+          m_Texture: {fileID: 8400000, guid: 2168b5134a1f1e24581e7b86b5c1c88b, type: 2}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Tex3
+        second:
+          m_Texture: {fileID: 8400000, guid: 99f3e2bf75d271948a25a25139d1e403, type: 2}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Tex4
+        second:
+          m_Texture: {fileID: 8400000, guid: d46a1974ac2dcf148a4ba5209df5d114, type: 2}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Tex5
+        second:
+          m_Texture: {fileID: 8400000, guid: 360d90cdd99e41144a6ab8025dd6dd87, type: 2}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Tex6
+        second:
+          m_Texture: {fileID: 8400000, guid: d98ff03bc3be38348a49cb849d3d8508, type: 2}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Tex7
+        second:
+          m_Texture: {fileID: 8400000, guid: 4bf10f34820dc244b860c84417243005, type: 2}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _Width
+        second: 1920
+      data:
+        first:
+          name: _Height
+        second: 1080
+      data:
+        first:
+          name: _Xoff
+        second: 0
+      data:
+        first:
+          name: _Pitch
+        second: 8
+      data:
+        first:
+          name: _Cot
+        second: 0.333333
+    m_Colors:
+      data:
+        first:
+          name: _Color
+        second: {r: 1, g: 1, b: 1, a: 1}

@@ -13,10 +13,11 @@ PlayerSettings:
   productName: Lethal Pursuit
   defaultCursor: {fileID: 2800000, guid: 5ac30dca6858f0448b61d8bfabc09770, type: 3}
   cursorHotspot: {x: 16, y: 16}
-  m_ShowUnitySplashScreen: 1
-  m_VirtualRealitySplashScreen: {fileID: 0}
-  defaultScreenWidth: 1024
-  defaultScreenHeight: 579
+  m_ShowUnitySplashScreen: 0
+  m_VirtualRealitySplashScreen: {fileID: 2800000, guid: 09ba4ce3900cc2442ae8b27728b10667,
+    type: 3}
+  defaultScreenWidth: 1920
+  defaultScreenHeight: 1080
   defaultScreenWidthWeb: 960
   defaultScreenHeightWeb: 600
   m_RenderingPath: 1
@@ -37,7 +38,7 @@ PlayerSettings:
   useOSAutorotation: 1
   use32BitDisplayBuffer: 1
   disableDepthAndStencilBuffers: 0
-  defaultIsFullScreen: 0
+  defaultIsFullScreen: 1
   defaultIsNativeResolution: 1
   runInBackground: 1
   captureSingleScreen: 0
@@ -164,7 +165,8 @@ PlayerSettings:
     height: 180
     banner: {fileID: 0}
   androidGamepadSupportLevel: 0
-  resolutionDialogBanner: {fileID: 0}
+  resolutionDialogBanner: {fileID: 2800000, guid: 09ba4ce3900cc2442ae8b27728b10667,
+    type: 3}
   m_BuildTargetIcons:
   - m_BuildTarget: 
     m_Icons:

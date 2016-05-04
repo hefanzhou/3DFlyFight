@@ -29,24 +29,38 @@ public class GameCtrInput : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        KeyBoradInput();
+        //KeyBoradInput();
 	}
 
-    void KeyBoradInput()
+
+
+    public void CallXStickEvent(float Horizontal)
     {
-        float Horizontal = Input.GetAxis("Horizontal");
-        float Vertical = Input.GetAxis("Vertical");
-
+        if(XStickEvent != null)
         XStickEvent(Horizontal);
+    }
+
+    public void CallYStickEvent(float Vertical)
+    {
+        if(YStickEvent != null)
         YStickEvent(Vertical);
+    }
 
-        BoostEvent(Input.GetKey(KeyCode.Space));
-        ShootEvent(Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl));
+    public void CallBoostEvent(bool boost)
+    {
+        if(BoostEvent != null)
+        BoostEvent(boost);
+    }
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Debug.Log("key down");
-            if (OpenMenuEvent != null) OpenMenuEvent();
-        }
+    public void CallShootEvent(bool isShoot)
+    {
+        if(ShootEvent != null)
+        ShootEvent(isShoot);
+    }
+
+    public void CallOpenMenuEvent()
+    {
+        if(OpenMenuEvent != null)
+        OpenMenuEvent();
     }
 }

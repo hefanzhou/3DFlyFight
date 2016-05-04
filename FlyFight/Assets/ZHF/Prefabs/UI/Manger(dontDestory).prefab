@@ -134,7 +134,7 @@ MonoBehaviour:
   matchMaker: {fileID: 0}
   matchName: default
   matchSize: 4
-  m_ShowLobbyGUI: 1
+  m_ShowLobbyGUI: 0
   m_MaxPlayers: 4
   m_MaxPlayersPerConnection: 1
   m_MinPlayers: 0
@@ -217,7 +217,6 @@ MonoBehaviour:
   m_ForceModuleActive: 1
   affirmTime: 3
   playerIndex: 0
-  UseKinectCtrl: 0
   smoothFactor: 3
   allowHandClicks: 1
   controlMouseDrag: 0
@@ -227,7 +226,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 145100}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b531f336dfee5f438f94ed501caefc7, type: 3}
   m_Name: 
@@ -428,6 +427,18 @@ Prefab:
       objectReference: {fileID: 120714, guid: acb063bc12376cf4ab708fa61ba27b84, type: 2}
     - target: {fileID: 0}
       propertyPath: m_ServerBindToIP
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: useKinectCtrl
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ShowLobbyGUI
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
