@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-public class UICountPanelManager : MonoBehaviour, PanelManager {
+public class UICountPanelManager : MonoBehaviour, IPanelManager {
     
     public GameObject itempPlayerConutPfb;
     private Transform listRoot;

@@ -52,7 +52,7 @@ public class MenuUIManager : MonoBehaviour
         currentPanel = menuPanle;
         mainCanvas = GetComponent<Canvas>();
 
-        CloseAllPanel();
+        //CloseAllPanel();
         ChangeToPanel(PanelType.MENU);
         //cooldownText = cooldownPanel.gameObject.GetComponentInChildren<Text>();
     }
@@ -97,7 +97,9 @@ public class MenuUIManager : MonoBehaviour
 
     public void ChangeToPanel(PanelType panelType)
     {
+        
         RectTransform panel = GetPanelByType(panelType);
+        if (panel == currentPanel) return;
         currentPanel.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
         currentPanel = panel;

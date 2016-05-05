@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class MenuPanle : MonoBehaviour {
+public class MenuPanle :MonoBehaviour, IPanelManager {
 
     private Button hostBtn;
     private Button joinBtn;
@@ -47,7 +47,8 @@ public class MenuPanle : MonoBehaviour {
 
     void OnClickJoin()
     {
-        GameLobbyManger.Instance.DirectJoin();
+        ServerListPanelManager.Instance.OpenPanel();
+        ClosePanle();
     }
 
     void OnClickQuit()
@@ -60,4 +61,14 @@ public class MenuPanle : MonoBehaviour {
     }
 
 
+
+    public void ClosePanle()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void OpenPanel()
+    {
+        gameObject.SetActive(true);
+    }
 }

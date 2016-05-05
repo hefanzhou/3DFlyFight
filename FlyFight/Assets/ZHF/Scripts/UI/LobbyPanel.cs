@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using BroadCast;
 public class LobbyPanel : MonoBehaviour {
 
 
@@ -8,6 +9,7 @@ public class LobbyPanel : MonoBehaviour {
     private Button optionBtn;
     private Button joinBtn;
     private RectTransform playerList;
+    private Coroutine sendBroadCastCoroutine;
 
     private static LobbyPanel instance = null;
 
@@ -24,6 +26,22 @@ public class LobbyPanel : MonoBehaviour {
     void Start()
     {
         RegistUIEvent();
+
+        UDPBroadCast.Instance.InitBroadCast(GameLobbyManger.Instance.mainPlayerData.name);
+        sendBroadCastCoroutine = StartCoroutine(SendBroadCast(1f));
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="intervalTime">发送广播间隔时间</param>
+    /// <returns></returns>
+    IEnumerator SendBroadCast(float intervalTime)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            UDPBroadCast.Instance.SendBroadCast();
+        }
     }
 
     void InintUI()
@@ -49,6 +67,15 @@ public class LobbyPanel : MonoBehaviour {
         MenuUIManager.Instance.ChangeToPanel(PanelType.MENU);
         GameLobbyManger.Instance.ExitLobby();
     }
+
+    void OnDisable()
+    {
+        Debug.Log("OnDisable");
+
+        StopCoroutine(sendBroadCastCoroutine);
+        UDPBroadCast.Instance.CloseBroadCast();
+    }
+
 
     void OnClickJoinBtn()
     {

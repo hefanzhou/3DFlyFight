@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class GameMenuPanel : MonoBehaviour, PanelManager {
+public class GameMenuPanel : MonoBehaviour, IPanelManager {
 
     private Button backBtn;
     private Button returnBtn;

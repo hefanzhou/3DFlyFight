@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class SettingPanel :MonoBehaviour, PanelManager {
+public class SettingPanel :MonoBehaviour, IPanelManager {
     private static SettingPanel instance;
 
     public static SettingPanel Instance

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UIPlayerInfoPanelManager : MonoBehaviour, PanelManager
+public class UIPlayerInfoPanelManager : MonoBehaviour, IPanelManager
 {
     public Sprite[] hpSprites;
     public Sprite[] headSprites;

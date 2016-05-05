@@ -9,12 +9,21 @@ using UnityEngine.UI;
 
         [SyncVar(hook="OnMyName")]
         public string playerName = "";
-        private Text nameText = null;
         [SyncVar]
         public ShipType shipType;
+
+        public Color readyColor = Color.green;
+        public Color notReadyColor = Color.red;
+        private Text nameText = null;
+        private Text readyText = null;
+        private Image readyImage = null;
         void Awake()
         {
             nameText = transform.Find("Name").GetComponent<Text>();
+            readyText = transform.Find("Ready/Text").GetComponent<Text>();
+            readyImage = transform.Find("Ready").GetComponent<Image>();
+
+            SetUIReady(false);
         }
         public override void OnClientEnterLobby()
         {//生成lobbyPlayer, 当进入一个客户端  （如果房间里有已有n个客户端，那么当本地生成这n个player时，每个对象上都会调用） 适合做初始化操作
@@ -38,8 +47,14 @@ using UnityEngine.UI;
 
         public override void OnClientReady(bool readyState)
         {//玩家进入准备状态
+            SetUIReady(readyState);
         }
 
+        private void SetUIReady(bool isReady)
+        {
+            readyText.text = isReady ? "Ready" : "NotReady";
+            readyImage.color = isReady ? readyColor : notReadyColor;
+        }
 
         public void OnReadyClicked()
         {

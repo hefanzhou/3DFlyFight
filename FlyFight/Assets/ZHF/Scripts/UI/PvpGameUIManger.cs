@@ -21,7 +21,7 @@ public class PvpGameUIManger : MonoBehaviour {
 	}
 }
 
-interface PanelManager
+interface IPanelManager
 {
     void ClosePanle();
     void OpenPanel();

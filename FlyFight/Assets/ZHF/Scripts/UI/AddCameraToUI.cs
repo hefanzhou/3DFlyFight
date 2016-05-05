@@ -9,8 +9,4 @@ public class AddCameraToUI : MonoBehaviour {
         GameObject.Find("/StartMenu").GetComponent<Canvas>().worldCamera = targetCamera;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }
