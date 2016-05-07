@@ -79,14 +79,14 @@ public class ServerListPanelManager : MonoBehaviour,IPanelManager {
 
     public void ClosePanle()
     {
-        UDPBroadCast.Instance.StopListenBroadCast();
         gameObject.SetActive(false);
+        UDPBroadCast.Instance.StopListenBroadCast();
     }
 
     public void OpenPanel()
     {
-        UDPBroadCast.Instance.StartListenBroadCast();
         gameObject.SetActive(true);
+        UDPBroadCast.Instance.StartListenBroadCast();
     }
 
 }

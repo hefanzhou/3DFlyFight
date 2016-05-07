@@ -23,6 +23,10 @@ using UnityEngine.UI;
             readyText = transform.Find("Ready/Text").GetComponent<Text>();
             readyImage = transform.Find("Ready").GetComponent<Image>();
 
+        }
+
+        void OnEnable()
+        {
             SetUIReady(false);
         }
         public override void OnClientEnterLobby()
@@ -98,6 +102,11 @@ using UnityEngine.UI;
             Debug.Log("@@@@RpcUpdateCountdown" + countdown);
         }
 
-
+        void Update()
+        {
+            Vector3 newPostion = transform.localPosition;
+            newPostion.z = 0;
+            transform.localPosition = newPostion;
+        }
     }
 

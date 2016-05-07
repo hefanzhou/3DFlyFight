@@ -2,6 +2,7 @@
 {
 	Properties
 	{
+
 		_Tex0("Tex0 (RGBA)", 2D) = "white" {}
 		_Tex1("Tex1 (RGBA)", 2D) = "white" {}
 		_Tex2("Tex2 (RGBA)", 2D) = "white" {}

@@ -74,6 +74,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 499722}
+  - 114: {fileID: 11449682}
   m_Layer: 8
   m_Name: Group
   m_TagString: Untagged
@@ -636,6 +637,18 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &11449682
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 145068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17040023d33f5284b94dcaebfa81ae3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetCamera: {fileID: 2022250}
 --- !u!114 &11487868
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -649,6 +662,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   delta: 0.25
   target: {fileID: 460146}
+  mainCamera: {fileID: 2022250}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -13,6 +13,14 @@ public class ShipCtrl : NetworkBehaviour
 
     public float maxVerticalTurnSpeed = 100.0f;
     public float verticalTurnSpeed = 200.0f;
+
+    [HideInInspector]
+    public event Action OnShootEvent;
+    [HideInInspector]
+    public event Action OnDemageEvent;
+    [HideInInspector]
+    public event Action OnDestoryEvent;
+
     private float currentVerticalTurnSpeed;
 
     public float driftTiltRate = 4f;
@@ -46,6 +54,7 @@ public class ShipCtrl : NetworkBehaviour
     public bool swappingWeapon = false;
 
     [HideInInspector]
+    [SyncVar]
     public float currentSpeed = 0;
 
     public float distanceForwardToCheckForCollision = 1000;
@@ -204,6 +213,7 @@ public class ShipCtrl : NetworkBehaviour
     [ClientRpc]
     public void RpcShoot()
     {
+        if (OnShootEvent != null) OnShootEvent();
         CreateBullets();
     }
 

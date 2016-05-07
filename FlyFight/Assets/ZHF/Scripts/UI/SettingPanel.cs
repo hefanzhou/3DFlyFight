@@ -13,6 +13,9 @@ public class SettingPanel :MonoBehaviour, IPanelManager {
     private Toggle kinectToggle;
     private Toggle eyeToggle;
 
+    [HideInInspector]
+    public event System.Action<bool> OnEyeToggleEvent;
+
 
     public SettingPanel()
     {
@@ -28,9 +31,31 @@ public class SettingPanel :MonoBehaviour, IPanelManager {
         eyeToggle.isOn = GetUseEye();
 
         kinectToggle.onValueChanged.AddListener(OnClickKinectToggle);
-        eyeToggle.onValueChanged.AddListener(OnClickEyeToggle);
+        eyeToggle.onValueChanged.AddListener(HandleEyeToggle);
+        OnEyeToggleEvent += OnClickEyeToggle;
     }
 
+	
+
+    public void HandleEyeToggle(bool isOpen)
+    {
+        OnEyeToggleEvent(isOpen);
+    }
+
+	void OnGUI()
+	{
+        if (GUILayout.Button("GetName"))
+        {
+            Debug.Log("eyeToggle.gameObject.name" + eyeToggle.gameObject.name);
+        }
+		if (GUILayout.Button ("Remove")) {
+            eyeToggle.onValueChanged.RemoveAllListeners();
+		}
+
+		if (GUILayout.Button ("Add")) {
+            eyeToggle.onValueChanged.AddListener(HandleEyeToggle);
+		}
+	}
 	
     private void OnClickKinectToggle(bool isToggle)
     {
@@ -41,6 +66,7 @@ public class SettingPanel :MonoBehaviour, IPanelManager {
 
     private void OnClickEyeToggle(bool isToggle)
     {
+        Debug.Log("OnClickEyeToggle");
         PlayerPrefs.SetInt("UseEye", isToggle ? 1 : 0);
     }
 

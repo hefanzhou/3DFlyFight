@@ -136,7 +136,7 @@ public class GameLobbyManger : NetworkLobbyManager
     //本地调用 服务器不会因为多个客户端进入调用多次
     public override void OnLobbyClientEnter()
     {
-        Debug.LogError("@@@@OnLobbyClientEnter");
+        //Debug.LogError("@@@@OnLobbyClientEnter");
         base.OnLobbyClientEnter();
 
     }
@@ -166,19 +166,19 @@ public class GameLobbyManger : NetworkLobbyManager
         int index = (int)itemLobbyPlayer.shipType;
         Transform position = base.GetStartPosition();
         GameObject go = Instantiate(playerPerfabs[index], position.position, position.rotation) as GameObject;
-        Debug.LogError("@@@@@@OnLobbyServerCreateGamePlayer:" + itemLobbyPlayer.playerName);
+        //Debug.LogError("@@@@@@OnLobbyServerCreateGamePlayer:" + itemLobbyPlayer.playerName);
         return go;
     }
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
     {
-        Debug.LogError("OnServerAddPlayer");
+        //Debug.LogError("OnServerAddPlayer");
         base.OnServerAddPlayer(conn, playerControllerId);
         //NetworkServer.ReplacePlayerForConnection(conn, playerGameobject, playerControllerId);
     }
 
     public override void OnLobbyClientSceneChanged(NetworkConnection conn)
     {
-        Debug.LogError("OnLobbyClientSceneChanged" + networkSceneName);
+        //Debug.LogError("OnLobbyClientSceneChanged" + networkSceneName);
         if (networkSceneName == playScene)
         {
             MenuUIManager.Instance.SetVisible(false);
@@ -192,7 +192,7 @@ public class GameLobbyManger : NetworkLobbyManager
 
     public override void OnLobbyServerSceneChanged(string sceneName)
     {
-        Debug.LogError("OnLobbyServerSceneChanged" + sceneName);
+        //Debug.LogError("OnLobbyServerSceneChanged" + sceneName);
         if (networkSceneName == playScene)
         {
             MenuUIManager.Instance.SetVisible(false);
@@ -207,13 +207,25 @@ public class GameLobbyManger : NetworkLobbyManager
 
     public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
     {
-        Debug.LogError("@@@@@@@OnLobbyServerSceneLoadedForPlayer" + SceneManager.GetActiveScene().name);
+        //Debug.LogError("@@@@@@@OnLobbyServerSceneLoadedForPlayer" + SceneManager.GetActiveScene().name);
         LobbyPlayer itemLobbyPlayer = lobbyPlayer.GetComponent<LobbyPlayer>();
         GamePlayer itemGamePlayer = gamePlayer.GetComponent<GamePlayer>();
         itemGamePlayer.InitByLobbyPlayer(itemLobbyPlayer);
         return true;
     }
 
+
+    public override void OnClientDisconnect(NetworkConnection conn)
+    {
+        Debug.LogError("@@@@@@@OnClientDisconnect");
+        if (networkSceneName != lobbyScene)
+        {
+            SceneManager.LoadScene(lobbyScene);
+            MenuUIManager.Instance.SetVisible(true);
+            MenuUIManager.Instance.ChangeToPanel(PanelType.MENU);
+        }
+        base.OnClientDisconnect(conn);
+    }
     public void ReturnToStartScene()
     {
         if (NetworkServer.active)

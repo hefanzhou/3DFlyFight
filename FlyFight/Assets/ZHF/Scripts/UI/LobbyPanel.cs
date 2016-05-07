@@ -8,6 +8,7 @@ public class LobbyPanel : MonoBehaviour {
     private Button backBtn;
     private Button optionBtn;
     private Button joinBtn;
+    private Text joinText;
     private RectTransform playerList;
     private Coroutine sendBroadCastCoroutine;
 
@@ -22,13 +23,13 @@ public class LobbyPanel : MonoBehaviour {
     {
         InintUI();
     }
+
     
     void Start()
     {
         RegistUIEvent();
 
-        UDPBroadCast.Instance.InitBroadCast(GameLobbyManger.Instance.mainPlayerData.name);
-        sendBroadCastCoroutine = StartCoroutine(SendBroadCast(1f));
+        
     }
     /// <summary>
     /// 
@@ -44,11 +45,30 @@ public class LobbyPanel : MonoBehaviour {
         }
     }
 
+    void OnEnable()
+    {
+        UDPBroadCast.Instance.InitBroadCast(GameLobbyManger.Instance.mainPlayerData.name);
+        sendBroadCastCoroutine = StartCoroutine(SendBroadCast(1f));
+
+        joinText.text = GameLobbyManger.Instance.mainPlayerData.lobbyPlayer.readyToBegin ? "Cancel" : "Ready";
+    }
+
+    void RefreshUIList()
+    {
+        for (int i = 0; i < playerList.childCount; ++i)
+        {
+            Debug.Log("RefreshUIList");
+            Vector3 newPostion = playerList.GetChild(i).localPosition;
+            newPostion.z = 0;
+            playerList.GetChild(i).localPosition = newPostion;
+        }
+    }
     void InintUI()
     {
         instance = this;
         backBtn = transform.Find("BackBtn").GetComponent<Button>();
         joinBtn = transform.Find("JoinBtn").GetComponent<Button>();
+        joinText = transform.Find("JoinBtn/Text").GetComponent<Text>();
         optionBtn = transform.Find("Option").GetComponent<Button>();
         playerList = transform.Find("PlayerScrollView/Viewport/List") as RectTransform;
     }
@@ -70,7 +90,6 @@ public class LobbyPanel : MonoBehaviour {
 
     void OnDisable()
     {
-        Debug.Log("OnDisable");
 
         StopCoroutine(sendBroadCastCoroutine);
         UDPBroadCast.Instance.CloseBroadCast();
@@ -79,7 +98,16 @@ public class LobbyPanel : MonoBehaviour {
 
     void OnClickJoinBtn()
     {
-        GameLobbyManger.Instance.mainPlayerData.lobbyPlayer.SendReadyToBeginMessage();
+        if (GameLobbyManger.Instance.mainPlayerData.lobbyPlayer.readyToBegin)
+        {
+            GameLobbyManger.Instance.mainPlayerData.lobbyPlayer.SendNotReadyToBeginMessage();
+            joinText.text = "Ready";
+        }
+        else
+        {
+            GameLobbyManger.Instance.mainPlayerData.lobbyPlayer.SendReadyToBeginMessage();
+            joinText.text = "Cancel";
+        }
     }
 
     void OnClickOptionBtn()

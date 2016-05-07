@@ -24,12 +24,10 @@ public class KinectCtrPlayerInput : MonoBehaviour {
         if (KinectInputModule.Instance.UseKinectCtrl) ctrFunction = KinectInput;
         else ctrFunction = KeyBoradInput;
        
-        outputText = transform.Find("OutPutText").GetComponent<Text>();
 	}
 
     private int playerIndex = 0;
     private string outputStr;
-    private Text outputText;
     private long primaryUserID;
     private KinectInterop.HandState leftHandState;
     private KinectInterop.HandState rightHandState;
@@ -54,6 +52,7 @@ public class KinectCtrPlayerInput : MonoBehaviour {
         {
             AnalysePlayerCtrByShouderBase();
             AnalysePlayerCtrByHand();
+            StopMotion();
         }
     }
 
@@ -211,6 +210,14 @@ public class KinectCtrPlayerInput : MonoBehaviour {
         outputStr += "\nleftHandPos:" + rightHandPos * 100;
         outputStr += "\nHorizontal:" + Horizontal;
         //outputText.text = outputStr;
+    }
+
+    void StopMotion()
+    {
+        if (rightHandPos.y > (spineShoulderPos.y + shoulderBaseDis) && leftHandPos.y > (spineShoulderPos.y + shoulderBaseDis))
+        {
+            GameCtrInput.Instance.CallOpenMenuEvent();
+        }
     }
 }
 

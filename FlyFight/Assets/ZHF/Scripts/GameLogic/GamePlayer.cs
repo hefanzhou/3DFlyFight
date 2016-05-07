@@ -24,6 +24,7 @@ public class GamePlayer : NetworkBehaviour, IComparable<GamePlayer>
     public Action<int> OnHpChangeEvent;
 
     private int killePlayerAmount = 0;
+    private ShipAudio shipAudio;
 
     public int KillePlayerAmount
     {
@@ -72,13 +73,18 @@ public class GamePlayer : NetworkBehaviour, IComparable<GamePlayer>
         if (GetComponent<NetworkIdentity>().hasAuthority)
         {
             PVPGameManager.Instance.mineGamePlayer = this;
+            gameObject.AddComponent<AudioListener>();
         }
         uiPlayerInfo = UIPlayerInfoPanelManager.Instance.AddPlayerInfo();
         uiPlayerInfo.Init(this);
+
+        shipAudio = gameObject.GetComponentInChildren<ShipAudio>();
     }
 
     void OnHpChanged(int newValue)
     {
+        if (hasAuthority && hp > newValue) shipAudio.PlayDemageAudio();
+
         hp = newValue;
         if (OnHpChangeEvent != null) OnHpChangeEvent(newValue);
     }
@@ -101,18 +107,14 @@ public class GamePlayer : NetworkBehaviour, IComparable<GamePlayer>
     void ProcessDeath ()
     {
         isDeath = true;
-        this.gameObject.SetActive(false);
+        this.transform.Find("Ship Mesh").gameObject.SetActive(false);
         if(hasAuthority && !PVPGameManager.Instance.IsGameOver)
         {
             CountDownManger.Instance.ShowCountDown(5, "{0:0.0} scends rebirth..", () => { CmdRebirth(); }, 0.1f);
         }
+        shipAudio.PlayDeathAudio();
     }
-    void OnGUI()
-    {
-        if (!hasAuthority) return;
-        //if (GUILayout.Button("Rebirth")) CmdRebirth();
 
-    }
     [Command]
     void CmdRebirth()
     {
@@ -126,7 +128,10 @@ public class GamePlayer : NetworkBehaviour, IComparable<GamePlayer>
         hp = 6;
         //uiPlayerInfo.OnHpChange(hp);
         this.transform.position =  GameLobbyManger.Instance.GetStartPosition().position;
-        this.gameObject.SetActive(true);
+        this.transform.Find("Ship Mesh").gameObject.SetActive(true);
+
+
+        shipAudio.PlayRebirthAudio();
     }
 
     [Server]

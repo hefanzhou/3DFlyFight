@@ -79,11 +79,5 @@ public class PVPGameManager : NetworkBehaviour {
         }
     }
 
-    void OnGUI()
-    {
-        if (GUILayout.Button("Sort"))
-        {
-            gamePlayerList.Sort();
-        }
-    }
+  
 }

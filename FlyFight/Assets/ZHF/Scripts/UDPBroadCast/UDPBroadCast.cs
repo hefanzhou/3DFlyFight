@@ -52,7 +52,6 @@ namespace BroadCast
             try
             {
                 hostName = Dns.GetHostName();
-                Debug.Log("hostName:" + hostName);
                 sendData = CommonTools.Serialize<BroadCastMessenger>(new BroadCastMessenger(hostName, string.Empty, dataBody));
                 sendSock = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 sendIep1 = new IPEndPoint(IPAddress.Broadcast, 9050);

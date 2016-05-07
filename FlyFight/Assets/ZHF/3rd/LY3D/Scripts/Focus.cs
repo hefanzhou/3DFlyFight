@@ -3,8 +3,10 @@ using System.Collections;
 
 public class Focus : MonoBehaviour
 {
+        [HideInInspector]
 		public float delta = 0.25f;
 		public Transform target;
+        public Camera mainCamera;
 		// Use this for initialization
 		void Start ()
 		{
@@ -29,5 +31,18 @@ public class Focus : MonoBehaviour
                 }
 
 		}
+
+    /// <summary>
+    /// 开启/关闭裸眼模式
+    /// </summary>
+        public void ToggleEyeModel(bool isOpen)
+        {
+            for (int i = 0; i < transform.childCount; ++i)
+            {
+                Transform childtransform = transform.GetChild(i);
+                if(childtransform != mainCamera.transform)
+                childtransform.gameObject.SetActive(isOpen);
+            }
+        }
 
 }

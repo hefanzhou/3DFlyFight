@@ -200,8 +200,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48772a9ec3abf29498b73062a767826d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  delta: 0.019
+  zero_distance: 20
   CG: {fileID: 0}
-  Zero_Plane: {fileID: 0}
+  eyeMaterial: {fileID: 2100000, guid: 6573345a82d508648946841352fd7c00, type: 2}
+  notEyeMateial: {fileID: 2100000, guid: c5cee7bff7474924c80d8a86c5734830, type: 2}
+  screenMeshRenderer: {fileID: 2339316}
 --- !u!124 &12438778
 Behaviour:
   m_ObjectHideFlags: 1
