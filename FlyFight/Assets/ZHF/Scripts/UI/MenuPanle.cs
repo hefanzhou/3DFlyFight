@@ -37,9 +37,14 @@ public class MenuPanle :MonoBehaviour, IPanelManager {
         hostBtn.onClick.AddListener(OnClickHost);
         joinBtn.onClick.AddListener(OnClickJoin);
         quitBtn.onClick.AddListener(OnClickQuit);
-        settingBtn.onClick.AddListener(SettingPanel.Instance.OpenPanel);
+        settingBtn.onClick.AddListener(OnClickSetting);
     }
 
+    void OnClickSetting()
+    {
+        SettingPanel.Instance.OpenPanel();
+        ClosePanle();
+    }
     void OnClickHost()
     {
         GameLobbyManger.Instance.StartHost();
@@ -70,5 +75,13 @@ public class MenuPanle :MonoBehaviour, IPanelManager {
     public void OpenPanel()
     {
         gameObject.SetActive(true);
+    }
+
+    void OnGUI()
+    {
+        if (GUILayout.Button("GetName"))
+        {
+            ServerListPanelManager.Instance.name = "XXXXX";
+        }
     }
 }

@@ -32,15 +32,10 @@ public class ServerListPanelManager : MonoBehaviour,IPanelManager {
         backBtn.onClick.AddListener(() => { ClosePanle(); MenuPanle.Instance.OpenPanel(); });
     }
 
-
-	// Use this for initialization
-	void Start () {
-	}
-	
 	// Update is called once per frame
     void FixedUpdate()
     {
-        RefreshList();
+        //RefreshList();
 	}
 
     void RefreshList()
@@ -74,19 +69,19 @@ public class ServerListPanelManager : MonoBehaviour,IPanelManager {
 
     void OnDestroy()
     {
-        UDPBroadCast.Instance.StopListenBroadCast();
+        //UDPBroadCast.Instance.StopListenBroadCast();
     }
 
     public void ClosePanle()
     {
         gameObject.SetActive(false);
-        UDPBroadCast.Instance.StopListenBroadCast();
+        //UDPBroadCast.Instance.StopListenBroadCast();
     }
 
     public void OpenPanel()
     {
         gameObject.SetActive(true);
-        UDPBroadCast.Instance.StartListenBroadCast();
+        //UDPBroadCast.Instance.StartListenBroadCast();
     }
 
 }

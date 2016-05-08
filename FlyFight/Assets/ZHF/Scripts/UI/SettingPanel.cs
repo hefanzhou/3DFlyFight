@@ -12,12 +12,13 @@ public class SettingPanel :MonoBehaviour, IPanelManager {
 
     private Toggle kinectToggle;
     private Toggle eyeToggle;
+    private Button backBtn;
 
     [HideInInspector]
     public event System.Action<bool> OnEyeToggleEvent;
 
 
-    public SettingPanel()
+    private SettingPanel()
     {
         instance = this;
     }
@@ -26,6 +27,7 @@ public class SettingPanel :MonoBehaviour, IPanelManager {
      
         kinectToggle = transform.Find("KinectToggle").GetComponent<Toggle>();
         eyeToggle = transform.Find("EyeToggle").GetComponent<Toggle>();
+        backBtn = transform.Find("BackBtn").gameObject.GetComponent<Button>();
 
         kinectToggle.isOn = GetUseKinect();
         eyeToggle.isOn = GetUseEye();
@@ -33,9 +35,16 @@ public class SettingPanel :MonoBehaviour, IPanelManager {
         kinectToggle.onValueChanged.AddListener(OnClickKinectToggle);
         eyeToggle.onValueChanged.AddListener(HandleEyeToggle);
         OnEyeToggleEvent += OnClickEyeToggle;
+        backBtn.onClick.AddListener(BackToMenu);
+
     }
 
-	
+
+    void BackToMenu()
+    {
+        ClosePanle(); 
+        MenuPanle.Instance.OpenPanel();
+    }
 
     public void HandleEyeToggle(bool isOpen)
     {
