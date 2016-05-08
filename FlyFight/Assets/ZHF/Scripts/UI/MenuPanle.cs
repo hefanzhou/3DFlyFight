@@ -77,11 +77,5 @@ public class MenuPanle :MonoBehaviour, IPanelManager {
         gameObject.SetActive(true);
     }
 
-    void OnGUI()
-    {
-        if (GUILayout.Button("GetName"))
-        {
-            ServerListPanelManager.Instance.name = "XXXXX";
-        }
-    }
+  
 }

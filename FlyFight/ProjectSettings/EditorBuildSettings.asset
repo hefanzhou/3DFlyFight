@@ -13,3 +13,5 @@ EditorBuildSettings:
     path: Assets/ZHF/Scenes/test1.unity
   - enabled: 0
     path: Assets/ZHF/Scenes/testBoradCast.unity
+  - enabled: 0
+    path: Assets/ZHF/Scenes/Test/testGame.unity

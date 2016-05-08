@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public enum PanelType
 {
