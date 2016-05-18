@@ -27,7 +27,6 @@ public class Focus : MonoBehaviour
                     Transform childtransform = transform.GetChild(i);
                     childtransform.localPosition = new Vector3(-3.5f * delta + i * delta, 0, 0);
                     childtransform.LookAt(target);
-                    i++;
                 }
 
 		}
