@@ -31,22 +31,13 @@ public class UI : MonoBehaviour
             SettingPanel.Instance.OnEyeToggleEvent -= ToggleEyeModel;
         }
 
-	
-		void OnGUI ()
-		{
 
-
-				Zero_Plane.transform.localPosition=new Vector3(0,0 ,zero_distance);
-				CG.delta = delta;
-				CG.adjustCamera ();
-
-                return;
-                if (GUILayout.Button("Open"))
-                    SettingPanel.Instance.HandleEyeToggle(true);
-                if (GUILayout.Button("Close"))
-                    SettingPanel.Instance.HandleEyeToggle(false);
-
-		}
+        void OnGUI()
+        {
+            Zero_Plane.transform.localPosition = new Vector3(0, 0, zero_distance);
+            CG.delta = delta;
+            CG.adjustCamera();
+        }
         
         public void ToggleEyeModel(bool isOpen)
         {

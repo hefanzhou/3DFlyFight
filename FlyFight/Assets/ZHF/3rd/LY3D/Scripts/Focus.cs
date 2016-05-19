@@ -7,6 +7,7 @@ public class Focus : MonoBehaviour
 		public float delta = 0.25f;
 		public Transform target;
         public Camera mainCamera;
+        public float h = 0.036f;
 		// Use this for initialization
 		void Start ()
 		{
@@ -21,14 +22,14 @@ public class Focus : MonoBehaviour
 		public void adjustCamera ()
 		{
 				Transform[] transforms = GetComponentsInChildren<Transform> ();
-
+                float singleAngle = delta / h;
                 for (int i = 0; i < transform.childCount; ++i)
                 {
+                    float angle = (i - 3.5f) * singleAngle;
                     Transform childtransform = transform.GetChild(i);
-                    childtransform.localPosition = new Vector3(-3.5f * delta + i * delta, 0, 0);
+                    childtransform.localPosition = new Vector3(h*Mathf.Sin(angle), 0,h- h*Mathf.Cos(angle));
                     childtransform.LookAt(target);
                 }
-
 		}
 
     /// <summary>
