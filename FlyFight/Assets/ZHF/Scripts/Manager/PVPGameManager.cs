@@ -46,7 +46,8 @@ public class PVPGameManager : NetworkBehaviour {
     {
         if (killePlayerAmount >= MaxKillAmount)
         {
-            RpcProcessGameOver();   
+            RpcProcessGameOver();
+            isGameOver = true;
         }
     }
 

@@ -34,7 +34,7 @@ public class ServerListPanelManager : MonoBehaviour,IPanelManager {
 	// Update is called once per frame
     void FixedUpdate()
     {
-        //RefreshList();
+        RefreshList();
 	}
 
     void RefreshList()

@@ -90,6 +90,7 @@ public class ShipCtrl : NetworkBehaviour
     void FixedUpdate()
     {
         if (!netIndentity.hasAuthority || gamePlayer.IsDeath || PVPGameManager.Instance.IsGameOver) return;
+         
         Rotation();
         Movement();
     }
@@ -176,6 +177,7 @@ public class ShipCtrl : NetworkBehaviour
     private float shootIntervalTime = 0.5f;
     void HandleShoot(bool isShoot)
     {
+        if (PVPGameManager.Instance.IsGameOver || gamePlayer.IsDeath) return;
         shooting = isShoot;
         if (shooting && !onShooting)
         {
